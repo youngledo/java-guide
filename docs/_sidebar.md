@@ -9,10 +9,28 @@
         * [概述](apache/cli/overview.md)
         * [用户指南](apache/cli/getting-started.md)
         * [使用CLI](apache/cli/using-cli.md)
-* JVM
-  * [JDK工具](jvm/jdk-tools.md)
-  * CLI
-    * [jps](jvm/cli/jps.md) 
-    * [jmap](jvm/cli/jmap.md)
-  * GUI
+* Java
+  * 工具
+    * [概述](java/tools/overview.md)
+    * 诊断
+      * 命令行
+        * [jps](java/tools/cli/jps.md)
+        * [jstat](java/tools/cli/jstat.md)
+        * [jstatd](java/tools/cli/jstatd.md)
+        * [jinfo](java/tools/cli/jinfo.md)
+        * [jmap](java/tools/cli/jmap.md)
+        * [jstack](java/tools/cli/jstack.md)
+        * [jhsdb](java/tools/cli/jhsdb.md)
+        * [jcmd](java/tools/cli/jcmd.md)
+        * jdb
+        * jhsdb
+      * 图形化
+        * [jconsole](java/tools/gui/jconsole.md)
+        * [Visual VM](java/tools/gui/visual-vm.md)
+        * JDK Mission Control
+        * Java Flight Recorder
+      * 三方工具
+        * [arthas](java/tools/third/arthas.md)
+        * [netbeans profiler](java/tools/third/netbeans-profiler.md)
+        * [custom](java/tools/third/custom.md)
 

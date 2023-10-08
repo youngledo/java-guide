@@ -1,0 +1,2 @@
+# 自定义诊断工具
+> [Custom Diagnostic Tools](https://docs.oracle.com/en/java/javase/21/troubleshoot/diagnostic-tools.html#GUID-55FDAAC0-8FA8-4F12-AE28-1E768FB49901)，JDK 具有广泛的 API，可用于开发自定义工具来观察、监视、分析、调试和诊断 Java 运行时环境中部署的应用程序中的问题。
