@@ -43,3 +43,5 @@
 -- 自定义诊断工具（除了以上工具以外，你也可以自定义自己的诊断工具）
 @endmindmap
 ```
+
+> 参考网络文章：https://learn.lianglianglee.com/%E4%B8%93%E6%A0%8F/JVM%20%E6%A0%B8%E5%BF%83%E6%8A%80%E6%9C%AF%2032%20%E8%AE%B2%EF%BC%88%E5%AE%8C%EF%BC%89
