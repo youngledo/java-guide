@@ -79,10 +79,10 @@ Compiled  Size  Type Method
 
 #### 3. gc选项：显示有关垃圾收集堆行为的统计信息
 ##### -gc：垃圾回收堆统计信息。
-- S0C: 当前survivor（幸存者）空间0的容量（KB）。
-- S1C: 当前survivor（幸存者）空间1的容量（KB）。
-- S0U: survivor（幸存者）空间0使用（KB）。
-- S1U: survivor（幸存者）空间1使用（KB）。
+- S0C: 当前survivor（幸存者）0空间的容量（KB）。
+- S1C: 当前survivor（幸存者）1空间的容量（KB）。
+- S0U: survivor（幸存者）0空间使用（KB）。
+- S1U: survivor（幸存者）1空间使用（KB）。
 - EC: 当前eden（伊甸园）空间容量 （KB）。
 - EU: eden（伊甸园）空间使用（KB）。
 - OC: 当前old（老年代）空间的容量（KB）。
@@ -98,6 +98,7 @@ Compiled  Size  Type Method
 - CGC: 并发垃圾回收事件的数量。
 - CGCT: 并发垃圾回收时间。
 - GCT: 垃圾回收总时间（YFCT + FGCT之和）。
+
 ```bash
 # 每300毫秒并以每5行为一页，总共输出50次：jstat -gc [-h<lines> <vmid> [<interval> [<count]]
 $ jstat -gc -h5 22388 300 50
@@ -121,6 +122,24 @@ $ jstat -gc -h5 22388 300 50
 > 2. 另外，也可以比较程序的`Timestamp`（启动时间戳）与`GCT`的占比情况。当占比超过20%则说明堆的压力比较大；当比例超过90%则说明堆里几乎没有可用空间，随时都可能`OOM`。
 
 ##### -gccapacity：内存池生成和空间容量。
+- NGCMN: Minimum new generation capacity (KB).
+- NGCMX: Maximum new generation capacity (KB).
+- NGC: Current new generation capacity (KB).
+- S0C: Current survivor space 0 capacity (KB).
+- S1C: Current survivor space 1 capacity (KB).
+- EC: Current eden space capacity (KB).
+- OGCMN: Minimum old generation capacity (KB).
+- OGCMX: Maximum old generation capacity (KB).
+- OGC: Current old generation capacity (KB).
+- OC: Current old space capacity (KB).
+- MCMN: Minimum metaspace capacity (KB).
+- MCMX: Maximum metaspace capacity (KB).
+- MC: Metaspace Committed Size (KB).
+- CCSMN: Compressed class space minimum capacity (KB).
+- CCSMX: Compressed class space maximum capacity (KB).
+- CCSC: Compressed class committed size (KB).
+- YGC: Number of young generation GC events.
+- FGC: Number of full GC events.
 
 ##### -gccause：此选项显示与`-gcutil`功能一样，但包括上次垃圾回收事件和当前垃圾回收事件的原因。除了为`-gcutil`列出的列之外，此选项还添加以下列：
 - LGCC：上次垃圾回收的原因。
@@ -139,16 +158,77 @@ $ jstat -gccause -h5 24668 300 100
 ```
 
 ##### -gcnew：新生代统计数据。
+- S0C: 当前survivor（幸存者）0的空间大小（KB）。
+- S1C: 当前survivor（幸存者）1的空间大小（KB）。
+- S0U: survivor（幸存者）0空间使用（KB）。
+- S1U: survivor（幸存者）1空间使用（KB）。
+- TT: 晋升（tenuring）阈值。
+- MTT: 最大晋升（tenuring）阈值。
+- DSS: 期望survivor空间大小（KB）。
+- EC: 当前eden（伊甸园）空间容量 （KB）。
+- EU: eden（伊甸园）空间使用（KB）。
+- YGC: 年轻代垃圾回收事件的数量。
+- YGCT: 年轻代垃圾回收时间。
+> `tenuring threshold`决定何时可以将对象从年轻代提升/移动到老年代。我们可以使用`-XX:InitialTenuringThreshold`和`-XX:MaxTenuringThreshold`标志设置保有阈值的初始值和最大值。我们还可以使用`-XX:TargetSurvivorRatio`来指定年轻代GC结束时Survivor Space的目标利用率（百分比）。
 
-##### -gcnewcapacity：新生代空间大小统计。
+##### -gcnewcapacity：新生代空间容量统计。
+- NGCMN: Minimum new generation capacity (KB).
+- NGCMX: Maximum new generation capacity (KB).
+- NGC: Current new generation capacity (KB).
+- S0CMX: Maximum survivor space 0 capacity (KB).
+- S0C: Current survivor space 0 capacity (KB).
+- S1CMX: Maximum survivor space 1 capacity (KB).
+- S1C: Current survivor space 1 capacity (KB).
+- ECMX: Maximum eden space capacity (KB).
+- EC: 当前eden（伊甸园）空间容量 （KB）。
+- YGC: 年轻代垃圾回收事件的数量。
+- FGC: Number of full GC events.
 
 ##### -gcold：老年代统计数据。
+- MC: Metaspace Committed Size (KB).
+- MU: Metaspace utilization (KB).
+- CCSC: Compressed class committed size (KB).
+- CCSU: Compressed class space used (KB).
+- OC: Current old space capacity (KB).
+- OU: Old space utilization (KB).
+- YGC: Number of young generation GC events.
+- FGC: Number of full GC events.
+- FGCT: Full garbage collection time.
+- GCT: Total garbage collection time.
 
-##### -gcoldcapacity：老年代大小统计。
+##### -gcoldcapacity：老年代容量统计。
+- OGCMN: Minimum old generation capacity (KB).
+- OGCMX: Maximum old generation capacity (KB).
+- OGC: Current old generation capacity (KB).
+- OC: Current old space capacity (KB).
+- YGC: Number of young generation GC events.
+- FGC: Number of full GC events.
+- FGCT: Full garbage collection time.
+- GCT: Total garbage collection time.
 
-##### -gcmetacapacity：元空间大小统计。
+##### -gcmetacapacity：元空间容量统计。
+- MCMN: Minimum metaspace capacity (KB).
+- MCMX: Maximum metaspace capacity (KB).
+- MC: Metaspace Committed Size (KB).
+- CCSMN: Compressed class space minimum capacity (KB).
+- CCSMX: Compressed class space maximum capacity (KB).
+- YGC: Number of young generation GC events.
+- FGC: Number of full GC events.
+- FGCT: Full garbage collection time.
+- GCT: Total garbage collection time.
 
 ##### -gcutil：垃圾回收统计信息摘要（百分比）。
+- S0: Survivor space 0 utilization as a percentage of the space's current capacity.
+- S1: Survivor space 1 utilization as a percentage of the space's current capacity.
+- E: Eden space utilization as a percentage of the space's current capacity.
+- O: Old space utilization as a percentage of the space's current capacity.
+- M: Metaspace utilization as a percentage of the space's current capacity.
+- CCS: Compressed class space utilization as a percentage.
+- YGC: Number of young generation GC events.
+- YGCT: Young generation garbage collection time.
+- FGC: Number of full GC events.
+- FGCT: Full garbage collection time.
+- GCT: Total garbage collection time.
 ```bash
 # 每300毫秒并以每5行为一页，总共输出50次：jstat -gcutil [-h<lines> <vmid> [<interval> [<count]]
 $ jstat -gcutil -h5 4388 300 50
