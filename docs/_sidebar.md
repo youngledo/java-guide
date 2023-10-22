@@ -19,9 +19,9 @@
         * [jinfo](java/tools/cli/jinfo.md)
         * [jmap](java/tools/cli/jmap.md)
         * [jstack](java/tools/cli/jstack.md)
-        * [jhsdb](java/tools/cli/jhsdb.md)
         * [jcmd](java/tools/cli/jcmd.md)
         * [jstatd](java/tools/cli/jstatd.md)
+        * [jhsdb](java/tools/cli/jhsdb.md)
         * jdb
         * jhsdb
       * 图形化
@@ -30,7 +30,8 @@
         * JDK Mission Control
         * Java Flight Recorder
       * 三方工具
-        * [arthas](java/tools/third/arthas.md)
-        * [netbeans profiler](java/tools/third/netbeans-profiler.md)
-        * [custom](java/tools/third/custom.md)
+        * [Arthas](java/tools/third/arthas.md)
+        * [JVM Sandbox](java/tools/third/jvm-sandbox.md)
+        * [Netbeans profiler](java/tools/third/netbeans-profiler.md)
+        * [自定义](java/tools/third/custom.md)
 
