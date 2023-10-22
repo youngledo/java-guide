@@ -13,6 +13,7 @@
 - Unloaded: 已卸载的类数。
 - Bytes: 已卸载的KB数。
 - Time: 执行类加载和卸载操作所花费的时间。
+
 ```bash
 # 1. 输出简单的类加载信息：jstat -class <vmid>
 $ jstat -class 6272
