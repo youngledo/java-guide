@@ -16,12 +16,12 @@
       * 命令行
         * [jps](java/tools/cli/jps.md)
         * [jstat](java/tools/cli/jstat.md)
-        * [jstatd](java/tools/cli/jstatd.md)
         * [jinfo](java/tools/cli/jinfo.md)
         * [jmap](java/tools/cli/jmap.md)
         * [jstack](java/tools/cli/jstack.md)
         * [jhsdb](java/tools/cli/jhsdb.md)
         * [jcmd](java/tools/cli/jcmd.md)
+        * [jstatd](java/tools/cli/jstatd.md)
         * jdb
         * jhsdb
       * 图形化
