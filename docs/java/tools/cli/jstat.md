@@ -52,7 +52,7 @@ Timestamp       Loaded  Bytes  Unloaded  Bytes     Time
 ```
 
 #### 2. compiler选项：显示有关 Java HotSpot VM 即时编译器行为的统计信息。
--compiler：输出即时编译器编译过的方法、耗时等统计信息。
+##### -compiler：输出即时编译器编译过的方法、耗时等统计信息。
 - Compiled: 已执行的编译任务数。
 - Failed: 失败的编译任务数。
 - Invalid: 无效的编译任务数。
@@ -66,7 +66,7 @@ Compiled Failed Invalid   Time   FailedType FailedMethod
      248      0       0     0.13          0             
 ```
 
--printcompilation：显示Java HotSpot VM编译方法统计信息。
+##### -printcompilation：显示Java HotSpot VM编译方法统计信息。
 - Compiled: 最近编译的方法所执行的编译任务数。
 - Size: 最近编译的方法的字节代码数。
 - Type: 最近编译的方法的编译类型。
