@@ -30,11 +30,11 @@
 +++[#EEAEEE] jcmd
 ++ 图形化
 +++[#FFC1C1] jconsole
-+++[#90EE90] visual vm
++++[#90EE90] Visual VM
 +++[#EED2EE] JDK Mission Control（生产时分析和诊断工具）
 +++[#FFA500] Java Flight Recorder（分析和事件收集框架）
 +++[#FFD39B] MAT（Eclipse Memory Analyzer Tool）
-+++[#EE799F] visualgc
++++[#EE799F] Visual GC
 -- 三方工具
 ---[#1DBAAF] Arthas（Java应用诊断利器）
 ---[#9C2B1B] JVM Sandbox（一种JVM的非侵入式运行期AOP解决方案）
