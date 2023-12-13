@@ -28,6 +28,7 @@
 +++[#FFD39B] jhat（堆分析工具）
 +++[#EE799F] jstack（线程快照）
 +++[#EEAEEE] jcmd
++++[#EEBEEE] java
 ++ 图形化
 +++[#FFC1C1] jconsole
 +++[#90EE90] Visual VM

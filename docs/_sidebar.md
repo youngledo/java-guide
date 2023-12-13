@@ -20,6 +20,7 @@
       * [jstack](java/tools/cli/jstack.md)
       * [jcmd](java/tools/cli/jcmd.md)
       * [jstatd](java/tools/cli/jstatd.md)
+      * [java](java/tools/cli/java.md)
       * [jhsdb](java/tools/cli/jhsdb.md)
       * jdb
       * jhsdb
