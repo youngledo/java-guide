@@ -26,7 +26,7 @@ Windows操作系统：javaw命令与java完全相同，只是javaw没有关联�
   java [options] source-file [args...] 
   ```
 
-### Java选项
+## Java选项
 java 命令支持以下各类选项：
 - 标准的Java选项：Java虚拟机的所有实现都保证支持这些选项。它们用于常见操作，例如检查 JRE 的版本、设置类路径、启用详细输出等。
 - 额外的Java选项：特定于Java HotSpot虚拟机的通用选项。不保证所有JVM实现都支持它们，并且可能会发生变化。这些选项以`-X`开头。
@@ -41,12 +41,12 @@ java 命令支持以下各类选项：
 
 对于需要参数的选项，参数可以用空格、冒号（:）或等号（=）与选项名隔开，或者参数可以直接跟在选项后面（每个选项的具体语法都不同）。如果要以字节为单位指定大小，可以不使用后缀，或者使用后缀k或K表示千字节（KB），m或M表示兆字节（MB），g或G表示千兆字节（GB）。例如，要将大小设置为8GB，可以指定8g、8192m、8388608k或8589934592作为参数。如果需要指定百分比，则使用0至1之间的数字。例如，指定0.25表示25%。
 
-#### 标准的Java选项
+### 标准的Java选项
 这些是所有JVM实现都支持的最常用选项。
 > 要为长选项指定参数，可以使用 --name=value 或 --name value。
 
 
-#### 额外的Java选项
+### 额外的Java选项
 ##### -Xlog:option
 使用Java虚拟机 (JVM) 统一日志记录框架配置或启用日志记录。请参阅[使用JVM统一日志记录框架启用日志记录](https://docs.oracle.com/en/java/javase/11/tools/java.html#GUID-BE93ABDC-999C-4CB5-A88B-1994AAAC74D5)。
 
@@ -93,7 +93,7 @@ java 命令支持以下各类选项：
 ##### -Xdock:icon=path_to_icon_file
 覆盖dock中显示的默认图标。
 
-#### 高级运行时的Java选项
+### Java高级运行时选项
 这些Java选项控制Java HotSpot虚拟机的运行时行为。
 
 ##### -XX:ActiveProcessorCount=x
@@ -129,6 +129,19 @@ java 命令支持以下各类选项：
 允许用户在文件中指定 VM 选项，例如：`java -XX:VMOptionsFile=/var/my_vm_options HelloWorld`。
 
 这种方式相比直接在命令行上设置大量的选项参数要简洁的多。
+
+### Java高级JIT编译器选项
+
+
+
+### Java高级可维护性选项
+
+
+
+### Java高级垃圾回收选项
+> 有关JVM一些默认值（垃圾回收器、堆、编译器等）的说明：https://docs.oracle.com/en/java/javase/11/gctuning/ergonomics.html#GUID-DA88B6A6-AF89-4423-95A6-BBCBD9FAE781
+
+
 
 #### JDK_JAVA_OPTIONS
 您可以使用`JDK_JAVA_OPTIONS`启动器环境变量，将其内容预置到`java`启动器的实际命令行中。
