@@ -1,7 +1,7 @@
 <!-- docs/_sidebar.md -->
 
-* 基金会
-  * Apache
+* **基金会**
+  * **Apache**
     * [简介](apache/apache.md)
     * Commons
       * [首页](apache/commons.md)
@@ -9,10 +9,11 @@
         * [概述](apache/cli/overview.md)
         * [用户指南](apache/cli/getting-started.md)
         * [使用CLI](apache/cli/using-cli.md)
-* Java
+* 🔥**Java**
   * 工具
     * [概述](java/tools/overview.md)
     * 命令行
+      * [java](java/tools/cli/java.md)
       * [jps](java/tools/cli/jps.md)
       * [jstat](java/tools/cli/jstat.md)
       * [jinfo](java/tools/cli/jinfo.md)
@@ -20,7 +21,6 @@
       * [jstack](java/tools/cli/jstack.md)
       * [jcmd](java/tools/cli/jcmd.md)
       * [jstatd](java/tools/cli/jstatd.md)
-      * [java](java/tools/cli/java.md)
       * [jhsdb](java/tools/cli/jhsdb.md)
       * jdb
       * jhsdb
