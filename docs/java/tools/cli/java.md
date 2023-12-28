@@ -131,8 +131,30 @@ java 命令支持以下各类选项：
 ##### -XX:OnOutOfMemoryError=string
 设置一个自定义命令或一系列分号分隔的命令，以在首次引发`OutOfMemoryError`异常时运行。如果字符串包含空格，则必须用引号括起来。有关命令字符串的示例，请参阅`-XX:OnError`选项的说明。
 
+##### -XX:+PrintFlagsInitial
+```shell
+# 打印所有的默认参数设置
+java -XX:+PrintFlagsInitial -version
+```
+
+##### -XX:+PrintFlagsFinal
+```shell
+# 打印最终值，如果某个默认值被新值覆盖，显示新值
+java -XX:+PrintFlagsFinal -version
+```
+
 ##### -XX:+PrintCommandLineFlags
 启用打印出现在命令行上符合人体工程学选择的JVM标志。了解JVM设置的人体工程学值很有用，例如堆空间大小和所选的垃圾收集器。默认情况下，此选项处于禁用状态并且不会打印标志。
+```shell
+# 打印那些被新值覆盖的项
+java -XX:+PrintCommandLineFlags -version
+```
+
+##### -XX:+PrintFlagsRanges
+打印标志可用的范围。
+```shell
+java -XX:+PrintFlagsRanges -version
+```
 
 ##### -XX:-UseContainerSupport
 虚拟机现在提供了自动容器检测支持，允许虚拟机确定在docker容器中运行的Java进程可用的内存量和处理器数量。它使用这些信息来分配系统资源。此支持仅在Linux x64平台上可用。如果支持，则此标志的默认值为true，并且默认情况下启用容器支持。可以使用-XX:-UseContainerSupport禁用它。
@@ -171,3 +193,7 @@ $ java -Xint @file3
 ```bash
 java -g @file1 -Dprop=value @file2 -Dws.prop="white spaces" -Xint @file3
 ```
+
+## 附录
+1. [How To Configure Java Heap Size Inside a Docker Container](https://www.baeldung.com/ops/docker-jvm-heap-size)
+2. [如何在Docker容器内配置Java堆大小](https://cloud.tencent.com/developer/article/2242238)
