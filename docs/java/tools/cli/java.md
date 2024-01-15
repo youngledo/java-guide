@@ -71,7 +71,8 @@ java 命令支持以下各类选项：
 -Xms6m
 ```
 **如果未设置此选项，则初始大小将设置为分配给老年代和年轻代的大小之和**。可以使用-Xmn选项或-XX:NewSize选项设置年轻代堆的初始大小。
-> 选项`-XX:InitalHeapSize`也可以用来设置初始堆大小。如果该选项出现在命令行的-Xms之后，那么初始堆大小将被设置为-XX:InitalHeapSize指定的值。
+> - 选项`-XX:InitalHeapSize`也可以用来设置初始堆大小。如果该选项出现在命令行的-Xms之后，那么初始堆大小将被设置为-XX:InitalHeapSize指定的值。
+> - 注意，它会覆盖`-XX:InitialRAMPercentage`。
 
 ##### -Xmx size
 指定内存分配池的最大大小（以字节为单位），单位为字节。**此值必须是1024的倍数并且大于2MB**。附加字母k或k表示千字节，m或m表示兆字节，g或g表示千兆字节。默认值是在运行时根据系统配置选择的。对于服务器部署，-Xms和-Xmx通常设置为相同的值。以下示例显示了如何使用各种单位将已分配内存的最大允许大小设置为80MB：
@@ -80,7 +81,8 @@ java 命令支持以下各类选项：
 -Xmx81920k
 -Xmx80m
 ```
--Xmx选项等同于于`-XX:MaxHeapSize`。
+> - -Xmx选项等同于于`-XX:MaxHeapSize`。
+> - 注意，它会覆盖`-XX:MaxRAMPercentage`。
 
 ##### -Xss size
 设置线程堆栈大小（以字节为单位）。附加字母k或k表示KB，m或m表示MB，g或g表示GB。默认值取决于平台：

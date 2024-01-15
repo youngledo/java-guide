@@ -123,24 +123,24 @@ $ jstat -gc -h5 22388 300 50
 > 2. 另外，也可以比较程序的`Timestamp`（启动时间戳）与`GCT`的占比情况。当占比超过20%则说明堆的压力比较大；当比例超过90%则说明堆里几乎没有可用空间，随时都可能`OOM`。
 
 ##### -gccapacity：内存池生成和空间容量。
-- NGCMN: Minimum new generation capacity (KB).
-- NGCMX: Maximum new generation capacity (KB).
-- NGC: Current new generation capacity (KB).
-- S0C: Current survivor space 0 capacity (KB).
-- S1C: Current survivor space 1 capacity (KB).
-- EC: Current eden space capacity (KB).
-- OGCMN: Minimum old generation capacity (KB).
-- OGCMX: Maximum old generation capacity (KB).
-- OGC: Current old generation capacity (KB).
-- OC: Current old space capacity (KB).
-- MCMN: Minimum metaspace capacity (KB).
-- MCMX: Maximum metaspace capacity (KB).
-- MC: Metaspace Committed Size (KB).
-- CCSMN: Compressed class space minimum capacity (KB).
-- CCSMX: Compressed class space maximum capacity (KB).
-- CCSC: Compressed class committed size (KB).
-- YGC: Number of young generation GC events.
-- FGC: Number of full GC events.
+- NGCMN: 最小新生代容量（KB）。
+- NGCMX: 最大新生代容量（KB）。
+- NGC: 当前新生代容量（KB）。
+- S0C: 当前幸存者空间0容量（KB）。
+- S1C: 当前幸存者空间1容量（KB）。
+- EC: 当前的伊甸园空间容量(KB)。
+- OGCMN: 最小老年代容量（KB）。
+- OGCMX: 最大老年代容量（KB）。
+- OGC: 当前老年代容量（KB）。
+- OC: 当前老年代空间容量（KB）。
+- MCMN: 最小元空间容量（KB）。
+- MCMX: 最大元空间容量（KB）。
+- MC: 元空间提交大小（KB）。
+- CCSMN: 压缩类空间最小容量（KB）。
+- CCSMX: 压缩类空间最大容量（KB）。
+- CCSC: 压缩类提交大小（KB）。
+- YGC: 年轻代GC事件的数量。
+- FGC: 完整GC事件的数量。
 
 ##### -gccause：此选项显示与`-gcutil`功能一样，但包括上次垃圾回收事件和当前垃圾回收事件的原因。除了为`-gcutil`列出的列之外，此选项还添加以下列：
 - LGCC：上次垃圾回收的原因。

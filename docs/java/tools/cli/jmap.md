@@ -22,9 +22,9 @@
 > 2. 生成的dump文件比较耗时，尤其是大内存镜像生成的dump文件则需要耗费更长的时间来完成。
 
 1. 手动导出（jmap命令），包含以下可选项：
-   - **live** --- When specified, dumps only the live objects; if not specified, then dumps all objects in the heap.
-   - format=b --- Dumps the Java heap in hprof binary format
-   - file=filename --- Dumps the heap to filename
+   - **live** --- 指定时，仅转储活动对象；如果未指定，则转储堆中的所有对象。
+   - format=b --- 以hprof二进制格式转储Java堆
+   - file=filename --- 将堆转储到文件
 
     ```bash
     # 导出指定进程下的存活的hprof二进制文件（一般的话，生产环境只需要分析存活的对象）
