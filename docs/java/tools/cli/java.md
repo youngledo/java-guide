@@ -146,7 +146,7 @@ java -XX:+PrintFlagsFinal -version
 ```
 
 ##### -XX:+PrintCommandLineFlags
-启用打印出现在命令行上符合人体工程学选择的JVM标志。了解JVM设置的人体工程学值很有用，例如堆空间大小和所选的垃圾收集器。默认情况下，此选项处于禁用状态并且不会打印标志。
+启用打印出现在命令行上的JVM标志（修改过的）。了解JVM设置的人体工程学值很有用，例如堆空间大小和所选的垃圾收集器。默认情况下，此选项处于禁用状态并且不会打印标志。
 ```shell
 # 打印那些被新值覆盖的项
 java -XX:+PrintCommandLineFlags -version
@@ -196,6 +196,97 @@ $ java -Xint @file3
 java -g @file1 -Dprop=value @file2 -Dws.prop="white spaces" -Xint @file3
 ```
 
-## 附录
+## 附加项
+
+### 一、关于JVM参数的设置
+
+容器化的天下，可以在Dockerfile中写占位符设置VM参数，如下：
+```shell
+ENTRYPPOINT ["java","${JAVA_OPTS}", "app.jar"]
+```
+这种方式可以说是大部分程序员或运维的做法，但此方式存在坑，详见：[passing-java-opts-to-spring-boot-application-through-docker-compose](https://stackoverflow.com/questions/53785577/passing-java-opts-to-spring-boot-application-through-docker-compose)和[sigterm-not-received-by-java-process-using-docker-stop-and-the-official-java-i](https://stackoverflow.com/questions/31836498/sigterm-not-received-by-java-process-using-docker-stop-and-the-official-java-i)。简单来说就是，Dockerfile注入的方式，在某些shell启动的场景会存在无法接收到“终止信号”（sigterm）。
+
+#### 那么推荐的做法是什么呢？
+
+这一点其实在Oracle官网有说明，[environment-variables-and-system-properties](https://docs.oracle.com/en/java/javase/11/troubleshoot/environment-variables-and-system-properties.html#GUID-A91E7E21-2E91-48C4-89A4-836A7C0EE93B)，但对于Java 9之后更推荐使用[JDK_JAVA_OPTIONS](https://docs.oracle.com/en/java/javase/11/tools/java.html#GUID-3B1CE181-CD30-4178-9602-230B800D4FAE__USINGTHEJDK_JAVA_OPTIONSLAUNCHERENV-F3C0E3BA)。另外，Google的[JIB](https://github.com/GoogleContainerTools/jib)也对于VM参数的设置做了说明：[how-do-i-set-parameters-for-my-image-at-runtime](https://github.com/GoogleContainerTools/jib/blob/master/docs/faq.md#how-do-i-set-parameters-for-my-image-at-runtime)。
+
+突然感慨，这些细致化的设置官网上都很少有说明，相反都是热衷于研究的开发人员们自己去搜寻。
+
+#### 总结
+Java 9之前用`JAVA_TOOL_OPTIONS`，之后用`JDK_JAVA_OPTIONS`。至于它们之间的差别，请参考：[jvm - What is the difference between JDK_JAVA_OPTIONS and JAVA_TOOL_OPTIONS when using Java 11? - Stack Overflow](https://stackoverflow.com/questions/52986487/what-is-the-difference-between-jdk-java-options-and-java-tool-options-when-using)。
+
+### 二、关于-XX:InitialRAMPercentage、-XX:MinRAMPercentage和-XX:MaxRAMPercentage的理解
+**1. -XX:InitialRAMPercentage**：它表示堆的初始大小占总内存的百分比。例如，如果堆大小为100MB，而总内存为1GB，则堆的初始大小为10%（100MB），即100MB。
+> 值得注意的是，当我们配置`-Xms`选项时，JVM 会忽略`-XX:InitialRAMPercentage`。
+
+**2. -XX:MinRAMPercentage**：参数与其名称不同，它允许设置小量内存（小于125MB）的JVM的最大堆大小。
+
+首先看先它的默认值：
+```shell
+$ docker run openjdk:8 java -XX:+PrintFlagsFinal -version | grep -E "MinRAMPercentage"
+   double MinRAMPercentage                      = 50.000000                            {product}
+
+openjdk version "1.8.0_292"
+OpenJDK Runtime Environment (build 1.8.0_292-b10)
+```
+然后，我们使用该参数来设置总内存为100MB的JVM的最大堆大小：
+```shell
+$ docker run -m 100MB openjdk:8 java -XX:MinRAMPercentage=80.0 -XshowSettings:VM -version
+
+VM settings:
+Max. Heap Size (Estimated): 77.38M
+Ergonomics Machine Class: server
+Using VM: OpenJDK 64-Bit Server VM
+
+openjdk version "1.8.0_292"
+OpenJDK Runtime Environment (build 1.8.0_292-b10)
+```
+此外，JVM在为小型内存服务器或容器设置最大堆大小时会**忽略**`-XX:MaxRAMPercentage`参数：
+```shell
+$ docker run -m 100MB openjdk:8 java -XX:MinRAMPercentage=80.0 -XX:MaxRAMPercentage=50.0 -XshowSettings:vm -version
+VM settings:
+Max. Heap Size (Estimated): 77.38M
+Ergonomics Machine Class: server
+Using VM: OpenJDK 64-Bit Server VM
+
+openjdk version "1.8.0_292"
+OpenJDK Runtime Environment (build 1.8.0_292-b10)
+```
+
+**3. -XX:MaxRAMPercentage**：参数与其名称不同，它允许设置大量内存（大于125MB）的JVM的最大堆大小。
+
+首先，看下它的默认值
+```shell
+$ docker run openjdk:8 java -XX:+PrintFlagsFinal -version | grep -E "MaxRAMPercentage"
+   double MaxRAMPercentage                      = 25.000000                            {product}
+
+openjdk version "1.8.0_292"
+OpenJDK Runtime Environment (build 1.8.0_292-b10)
+```
+然后，对于总内存为 500 MB 的 JVM，我们可以使用该参数将最大堆大小设置为 60%：
+```shell
+$ docker run -m 500MB openjdk:8 java -XX:MaxRAMPercentage=60.0 -XshowSettings:vm -version
+VM settings:
+Max. Heap Size (Estimated): 290.00M
+Ergonomics Machine Class: server
+Using VM: OpenJDK 64-Bit Server VM
+
+openjdk version "1.8.0_292"
+OpenJDK Runtime Environment (build 1.8.0_292-b10)
+```
+同样，JVM会忽略大内存服务器或容器的`-XX:MinRAMPercentage`参数：
+```shell
+$ docker run -m 500MB openjdk:8 java -XX:MaxRAMPercentage=60.0 -XX:MinRAMPercentage=30.0 -XshowSettings:vm -version
+VM settings:
+Max. Heap Size (Estimated): 290.00M
+Ergonomics Machine Class: server
+Using VM: OpenJDK 64-Bit Server VM
+
+openjdk version "1.8.0_292"
+OpenJDK Runtime Environment (build 1.8.0_292-b10)
+```
+关于以上的研究，参考：[https://www.baeldung.com/java-jvm-parameters-rampercentage](https://www.baeldung.com/java-jvm-parameters-rampercentage)。另外关于上述的`125MB`为Oracle官网的说明。
+
+### 其它配置
 1. [How To Configure Java Heap Size Inside a Docker Container](https://www.baeldung.com/ops/docker-jvm-heap-size)
 2. [如何在Docker容器内配置Java堆大小](https://cloud.tencent.com/developer/article/2242238)
