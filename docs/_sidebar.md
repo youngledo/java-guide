@@ -35,4 +35,6 @@
       * [JVM Sandbox](java/tools/third/jvm-sandbox.md)
       * [Netbeans profiler](java/tools/third/netbeans-profiler.md)
       * [自定义](java/tools/third/custom.md)
+* **疑难杂症**
+  * [如何分发Java制品到Maven仓库](troubleshoot/maven-distribution-artifact.md)
 
