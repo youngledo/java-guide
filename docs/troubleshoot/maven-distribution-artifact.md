@@ -1,3 +1,5 @@
+# 如何分发Java制品到Maven仓库
+
 ### 背景
 昨天一组同学有个需求，统一设置各个项目的分发地址，避免侵入到每个项目中，因此就需要有个位置统一配置便于管控。但在实际实施过程中Maven输出以下错误：
 ![maven-artifact.png](assets/maven-artifact.png)

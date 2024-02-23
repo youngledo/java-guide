@@ -36,5 +36,6 @@
       * [Netbeans profiler](java/tools/third/netbeans-profiler.md)
       * [自定义](java/tools/third/custom.md)
 * **疑难杂症**
+  * [如何正确的设置JVM参数](troubleshoot/jvm-options-setting.md)
   * [如何分发Java制品到Maven仓库](troubleshoot/maven-distribution-artifact.md)
 
