@@ -48,29 +48,36 @@ Compiler.directives_add
       ![jcmd-pid-vm.flags.png](assets/jcmd-pid-vm.flags.png)
 
 - GC
-  1. jcmd <process id/main class> GC.class_histogram：内部类和特定于应用程序的类都包含在列表中。占用最多内存的类列在顶部，并且类按降序列出。
-  > 这与使用`jmap -histo[:live] <pid>`相同，可以使用`jcmd <process id/main class> help GC.class_histogram`输出详细说明。
-  2. jcmd <process id/main class> GC.heap_dump filename=Myheapdump.hprof：创建堆转储。
-  > 这与使用`jmap -dump:file=<file> <pid>`，可以使用`jcmd <process id/main class> help GC.heap_dump`输出详细说明。
+  1. GC.class_histogram：内部类和特定于应用程序的类都包含在列表中。占用最多内存的类列在顶部，并且类按降序列出。
+     > 这与使用`jmap -histo[:live] <pid>`相同，可以使用`jcmd <process id/main class> help GC.class_histogram`输出详细说明。
+  2. GC.heap_dump filename=Myheapdump.hprof：创建堆转储。
+     > 这与使用`jmap -dump:file=<file> <pid>`，可以使用`jcmd <process id/main class> help GC.heap_dump`输出详细说明。
+  3. GC.heap_info
+     > 提供通用Java堆信息。
+     > 影响: 中等
+  4. GC.run
+     > 调用`java.lang.System.gc()`。
+     > 
+     > 影响: 中等，取决于Java堆大小和内容。
   
 - [JFR（JDK Flight Recorder）](java/tools/gui/jfr.md)
   1. JFR.start
-  > 开始记录，例如，要对正在运行的标识符为 7060 的 Java 进程启动 2 分钟的录制并将其保存到当前目录中的 myrecording.jfr，请使用以下命令：
-  > ```bash
-  > jcmd 7060 JFR.start name=MyRecording settings=profile delay=20s duration=2m filename=C:\TEMP\myrecording.jfr
-  > ```
+      > 开始记录，例如，要对正在运行的标识符为 7060 的 Java 进程启动 2 分钟的录制并将其保存到当前目录中的 myrecording.jfr，请使用以下命令：
+      > ```bash
+      > jcmd 7060 JFR.start name=MyRecording settings=profile delay=20s duration=2m filename=C:\TEMP\myrecording.jfr
+      > ```
   2. JFR.check
-  > 检查正在运行的记录：
-  > ```bash
-  > jcmd 7060 JFR.check
-  > ```
+     > 检查正在运行的记录：
+     > ```bash
+     > jcmd 7060 JFR.check
+     > ```
   3. JFR.stop
-  > 停止正在运行的记录并可以选择丢弃记录数据：
-  > ```bash
-  > jcmd 7060 JFR.stop
-  > ```
+     > 停止正在运行的记录并可以选择丢弃记录数据：
+     > ```bash
+     > jcmd 7060 JFR.stop
+     > ```
   4. JFR.dump
-  > 停止正在运行的记录并可以选择将记录转储到文件：
-  > ```bash
-  > jcmd 7060 JFR.dump name=MyRecording filename=C:\TEMP\myrecording.jfr
-  > ```
+     > 停止正在运行的记录并可以选择将记录转储到文件：
+     > ```bash
+     > jcmd 7060 JFR.dump name=MyRecording filename=C:\TEMP\myrecording.jfr
+     > ```
