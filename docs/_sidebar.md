@@ -1,6 +1,6 @@
 <!-- docs/_sidebar.md -->
 
-* **基金会**
+* ⛓️**基金会**
   * **Apache**
     * [简介](apache/apache.md)
     * 🧰 Commons
@@ -11,7 +11,7 @@
         * [使用CLI](apache/cli/using-cli.md)
   * **Eclipse**
 * 🔥 **Java**
-  * 工具
+  * ⚒️工具
     * [概述](java/tools/overview.md)
     * 命令行
       * [java](java/tools/cli/java.md)
@@ -35,7 +35,7 @@
       * [JVM Sandbox](java/tools/third/jvm-sandbox.md)
       * [Netbeans profiler](java/tools/third/netbeans-profiler.md)
       * [自定义](java/tools/third/custom.md)
-  * 疑难杂症
+  * ❓疑难杂症
     * [如何正确的设置JVM参数](java/troubleshoot/jvm-options-setting.md)
     * [如何分发Java制品到Maven仓库](java/troubleshoot/maven-distribution-artifact.md)
 
