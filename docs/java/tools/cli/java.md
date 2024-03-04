@@ -84,6 +84,18 @@ java 命令支持以下各类选项：
 > - -Xmx选项等同于于`-XX:MaxHeapSize`。
 > - 注意，它会覆盖`-XX:MaxRAMPercentage`。
 
+##### -XshowSettings:category
+显示设置，该选项的可能类别参数如下：
+- all：显示所有类别的设置。这是默认值。
+- locale：显示与区域设置相关的设置。
+- properties：显示与系统属性相关的设置。
+- vm：显示JVM的设置。
+- system：**Linux**：显示主机系统或容器配置。
+```shell
+# 显示程序的VM设置
+java -XshowSettings:vm -version
+```
+
 ##### -Xss size
 设置线程堆栈大小（以字节为单位）。附加字母k或k表示KB，m或m表示MB，g或g表示GB。默认值取决于平台：
 - Linux/x64 (64-bit): 1024 KB
@@ -118,6 +130,18 @@ java 命令支持以下各类选项：
 覆盖虚拟机将用于计算用于各种操作（如垃圾回收和ForkJoinPool）的线程池大小的CPU数。
 
 虚拟机通常会从操作系统中确定可用处理器的数量。在 docker 容器中运行多个 Java 进程时，该标记可用于划分CPU资源。即使未启用UseContainerSupport，也会启用该标记。有关启用和禁用容器支持的说明，请参阅`-XX:-UseContainerSupport`。
+
+##### -XX:MaxDirectMemorySize=size（俗称堆外内存）
+设置`java.nio`包直接缓冲区分配的最大总大小（以字节为单位）。用字母k或K表示千字节，用m或M表示兆字节，用g或G表示千兆字节。默认情况下，大小设置为0，这意味着JVM会自动选择NIO直接缓冲区分配的大小。
+
+以下示例说明了如何以不同单位将 NIO 大小设置为 1024 KB：
+```
+-XX:MaxDirectMemorySize=1m
+-XX:MaxDirectMemorySize=1024k
+-XX:MaxDirectMemorySize=1048576
+```
+**参考文档**
+- [JVM源码分析之堆外内存完全解读](http://lovestblog.cn/blog/2015/05/12/direct-buffer/)
 
 ##### -XX:OnError=string
 设置在发生不可恢复的错误时运行的自定义命令或一系列以分号分隔的命令。如果字符串包含空格，则必须将其括在引号中。
@@ -198,8 +222,7 @@ java -g @file1 -Dprop=value @file2 -Dws.prop="white spaces" -Xint @file3
 
 ## 附加项
 
-### 一、关于JVM参数的设置
-
+### 一、关于JVM参数的设置（容器化）
 容器化的天下，可以在Dockerfile中写占位符设置VM参数，如下：
 ```shell
 ENTRYPPOINT ["java","${JAVA_OPTS}", "app.jar"]
@@ -287,6 +310,9 @@ OpenJDK Runtime Environment (build 1.8.0_292-b10)
 ```
 关于以上的研究，参考：[https://www.baeldung.com/java-jvm-parameters-rampercentage](https://www.baeldung.com/java-jvm-parameters-rampercentage)。另外关于上述的`125MB`为Oracle官网的说明。
 
+另外，`-XX:MaxRAMFraction`选项也可以用来控制堆的大小，默认值为4，即堆的大小为总内存的1/4。
+
 ### 其它配置
-1. [How To Configure Java Heap Size Inside a Docker Container](https://www.baeldung.com/ops/docker-jvm-heap-size)
-2. [如何在Docker容器内配置Java堆大小](https://cloud.tencent.com/developer/article/2242238)
+1. **[Java Heap Sizing in a Container: Quickly and Easily](https://blogs.oracle.com/java/post/java-heap-sizing-in-a-container-quickly-and-easily)**
+2. [How To Configure Java Heap Size Inside a Docker Container](https://www.baeldung.com/ops/docker-jvm-heap-size)
+3. [如何在Docker容器内配置Java堆大小](https://cloud.tencent.com/developer/article/2242238)
