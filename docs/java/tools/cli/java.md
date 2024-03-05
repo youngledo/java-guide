@@ -1,5 +1,5 @@
 # java
-> 启动一个Java应用。
+> 启动一个Java应用，详细文档：https://docs.oracle.com/en/java/javase/11/tools/java.html#GUID-3B1CE181-CD30-4178-9602-230B800D4FAE
 
 ## 概要
 Windows操作系统：javaw命令与java完全相同，只是javaw没有关联的控制台窗口。如果不希望出现命令提示窗口，请使用javaw。不过，如果启动失败，javaw 启动器会显示一个包含错误信息的对话框。
@@ -44,7 +44,6 @@ java 命令支持以下各类选项：
 ### 标准的Java选项
 这些是所有JVM实现都支持的最常用选项。
 > 要为长选项指定参数，可以使用 --name=value 或 --name value。
-
 
 ### 额外的Java选项
 ##### -Xlog:option
@@ -176,12 +175,6 @@ java -XX:+PrintFlagsFinal -version
 java -XX:+PrintCommandLineFlags -version
 ```
 
-##### -XX:+PrintFlagsRanges
-打印标志可用的范围。
-```shell
-java -XX:+PrintFlagsRanges -version
-```
-
 ##### -XX:-UseContainerSupport
 虚拟机现在提供了自动容器检测支持，允许虚拟机确定在docker容器中运行的Java进程可用的内存量和处理器数量。它使用这些信息来分配系统资源。此支持仅在Linux x64平台上可用。如果支持，则此标志的默认值为true，并且默认情况下启用容器支持。可以使用-XX:-UseContainerSupport禁用它。
 
@@ -194,18 +187,40 @@ java -XX:+PrintFlagsRanges -version
 
 这种方式相比直接在命令行上设置大量的选项参数要简洁的多。
 
-### Java高级JIT编译器选项
+### Java高级动态即时编译器选项
+这些java选项控制Java HotSpot VM执行的动态即时（JIT）编译。
 
 
+### Java高级服务性选项
+这些Java选项提供了收集系统信息和执行大量调试的能力。
 
-### Java高级可维护性选项
+##### -XX:+HeapDumpOnOutOfMemoryError
+允许在抛出`java.lang.OutOfMemoryError`异常时使用堆分析器（HPROF）将Java堆转储到当前目录中的文件。您可以使用`-XX:HeapDumpPath`选项显式设置堆转储文件路径和名称。默认情况下，此选项被禁用，并且在抛出`OutOfMemoryError`异常时不会转储堆。
 
+##### -XX:HeapDumpPath=path
+当设置了`-XX:+HeapDumpOnOutOfMemoryError`选项时，设置写入堆分析器（HPROF）提供的堆转储的路径和文件名。默认情况下，该文件是在当前工作目录中创建的，名称为`java_pid＜pid＞.hprof`，其中`＜pid＞`是导致错误的进程的标识符。以下示例显示了如何显式设置默认文件（%p表示当前进程标识符）：
+```shell
+-XX:HeapDumpPath=./java_pid%p.hprof
+```
+- Oracle Solaris, Linux, and macOS: 以下示例显示如何将堆转储文件设置为`/var/log/java/java_heapdump.hprof`：
+  ```shell
+  -XX:HeapDumpPath=/var/log/java/java_heapdump.hprof
+  ```
+- Windows：以下示例显示了如何将堆转储文件设置为`C:/log/java/java_heapdump.log`：
+  ```shell
+  -XX:HeapDumpPath=C:/log/java/java_heapdump.log
+  ```
+
+##### -XX:+PrintFlagsRanges
+打印指定的范围，并允许自动测试值。详见：https://docs.oracle.com/en/java/javase/11/tools/java.html#GUID-9569449C-525F-4474-972C-4C1F63D5C357
+```shell
+java -XX:+PrintFlagsRanges -version
+```
 
 
 ### Java高级垃圾回收选项
+这些Java选项控制Java HotSpot VM如何执行垃圾收集(GC)。
 > 有关JVM一些默认值（垃圾回收器、堆、编译器等）的说明：https://docs.oracle.com/en/java/javase/11/gctuning/ergonomics.html#GUID-DA88B6A6-AF89-4423-95A6-BBCBD9FAE781
-
-
 
 #### JDK_JAVA_OPTIONS
 您可以使用`JDK_JAVA_OPTIONS`启动器环境变量，将其内容预置到`java`启动器的实际命令行中。
