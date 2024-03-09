@@ -314,7 +314,8 @@ OpenJDK Runtime Environment (build 1.8.0_292-b10)
 
 另外，`-XX:MaxRAMFraction`选项也可以用来控制堆的大小，默认值为4，即堆的大小为总内存的1/4。
 
-### 其它配置
+### 附录
 1. **[Java Heap Sizing in a Container: Quickly and Easily](https://blogs.oracle.com/java/post/java-heap-sizing-in-a-container-quickly-and-easily)**
 2. [How To Configure Java Heap Size Inside a Docker Container](https://www.baeldung.com/ops/docker-jvm-heap-size)
 3. [如何在Docker容器内配置Java堆大小](https://cloud.tencent.com/developer/article/2242238)
+4. [Xmx和Xms的大小是小于Docker容器以及Pod的大小的，为啥还是会出现OOMKilled？](https://juejin.cn/post/7183549109025013815)
