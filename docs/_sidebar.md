@@ -21,10 +21,9 @@
       * [jmap](java/tools/cli/jmap.md)
       * [jstack](java/tools/cli/jstack.md)
       * [jcmd](java/tools/cli/jcmd.md)
-      * [jstatd](java/tools/cli/jstatd.md)
       * [jhsdb](java/tools/cli/jhsdb.md)
+      * [jstatd](java/tools/cli/jstatd.md)
       * jdb
-      * jhsdb
     * 图形化
       * [jconsole](java/tools/gui/jconsole.md)
       * [Visual VM](java/tools/gui/visual-vm.md)

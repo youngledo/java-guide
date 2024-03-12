@@ -1,5 +1,7 @@
 # java
-> 启动一个Java应用，详细文档：https://docs.oracle.com/en/java/javase/11/tools/java.html#GUID-3B1CE181-CD30-4178-9602-230B800D4FAE
+> java命令启动Java应用程序。它通过启动Java虚拟机 (JVM)、加载指定的类并调用该类的 main()方法来完成此操作。 
+> 
+> 参考文档：https://docs.oracle.com/en/java/javase/11/tools/java.html#GUID-3B1CE181-CD30-4178-9602-230B800D4FAE
 
 ## 概要
 Windows操作系统：javaw命令与java完全相同，只是javaw没有关联的控制台窗口。如果不希望出现命令提示窗口，请使用javaw。不过，如果启动失败，javaw 启动器会显示一个包含错误信息的对话框。
@@ -28,8 +30,8 @@ Windows操作系统：javaw命令与java完全相同，只是javaw没有关联�
 
 ## Java选项
 java 命令支持以下各类选项：
-- 标准的Java选项：Java虚拟机的所有实现都保证支持这些选项。它们用于常见操作，例如检查 JRE 的版本、设置类路径、启用详细输出等。
-- 额外的Java选项：特定于Java HotSpot虚拟机的通用选项。不保证所有JVM实现都支持它们，并且可能会发生变化。这些选项以`-X`开头。
+- 标准的Java选项：Java虚拟机的所有实现都保证支持这些选项。它们用于常见操作，例如检查 JRE 的版本、设置类路径、启用详细输出等。使用`java -help`命令输出标准选项。
+- 额外的Java选项：特定于Java HotSpot虚拟机的通用选项。不保证所有JVM实现都支持它们，并且可能会发生变化。这些选项以-X开头，使用`java -X -help`命令输出标准选项。
 
 不建议随意使用高级选项。这些是开发人员选项，用于调整Java HotSpot虚拟机操作的特定区域，这些区域通常具有特定的系统要求，并且可能需要对系统配置参数的特权访问。性能调整示例中提供了几个性能调整的示例。不保证所有JVM实现都支持这些选项，并且可能会发生变化。高级选项以`-XX`开头。
 - 高级运行时的Java选项：控制Java HotSpot虚拟机的运行时行为。

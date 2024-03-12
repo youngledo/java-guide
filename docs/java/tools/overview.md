@@ -27,7 +27,7 @@
 +++[#FFA500] jmap（导出内存映像文件、内存使用情况）
 +++[#FFD39B] jhat（堆分析工具）
 +++[#EE799F] jstack（线程快照）
-+++[#EEAEEE] jcmd
++++[#EEAEEE] jcmd（命令行工具）
 +++[#EEBEEE] java
 ++ 图形化
 +++[#FFC1C1] jconsole

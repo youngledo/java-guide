@@ -15,10 +15,10 @@ Starts the interactive GUI debugger.
 ### jhsdb jstack
 Prints stack and locks information.
 
-### jhsdb jcmd
+### jhsdb jmap
 打印堆信息。
 
-![jhsdb-jcmd.png](assets%2Fjhsdb-jcmd.png)
+![jhsdb-jmap.png](assets/jhsdb-jmap.png)
 
 ### jhsdb jinfo
 打印 JVM 的基本信息。
