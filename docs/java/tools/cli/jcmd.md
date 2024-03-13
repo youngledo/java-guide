@@ -41,11 +41,17 @@ Compiler.directives_add
   1. jcmd <process id/main class> VM.version：打印完整的HotSpot和JDK版本ID。
   2. jcmd <process id/main class> VM.system_properties：打印为虚拟机设置的所有系统属性。
 
-      ![jcmd-pid-vm.sys_properties.png](assets/jcmd-pid-vm.sys_properties.png)
+     ![jcmd-pid-vm.sys_properties.png](assets/jcmd-pid-vm.sys_properties.png)
 
   3. jcmd <process id/main class> VM.flags：打印标志信息，即使您没有提供任何标志，也会打印一些默认值，例如初始和最大堆大小。
 
-      ![jcmd-pid-vm.flags.png](assets/jcmd-pid-vm.flags.png)
+     ![jcmd-pid-vm.flags.png](assets/jcmd-pid-vm.flags.png)
+  4. jcmd <process id/main class> VM.native_memory：打印虚拟机的本地内存使用情况，包含机会整个JVM的内存情况。
+     > 注意需要设置`-XX:NativeMemoryTracking=[off | summary | detail]`选项才能使用该命令。
+     > 
+     > 详情参考官网：[Native Memory Tracking](https://docs.oracle.com/en/java/javase/11/vm/native-memory-tracking.html#GUID-710CAEA1-7C6D-4D80-AB0C-B0958E329407)
+    
+     ![assets/jcmd-VM.native_memory.png](assets/jcmd-VM.native_memory.png)
 
 - GC
   1. GC.class_histogram：内部类和特定于应用程序的类都包含在列表中。占用最多内存的类列在顶部，并且类按降序列出。
@@ -55,6 +61,8 @@ Compiler.directives_add
   3. GC.heap_info
      > 提供通用Java堆信息。
      > 影响: 中等
+     > 
+     ![jcmd-GC.heap_info.png](assets/jcmd-GC.heap_info.png)
   4. GC.run
      > 调用`java.lang.System.gc()`。
      > 
