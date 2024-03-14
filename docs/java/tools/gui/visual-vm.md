@@ -25,3 +25,30 @@
    - 可将分析结果导出为报告格式，方便分享和存档。
 
 总之，Visual VM是一个全能型的Java应用性能管理工具，能够帮助开发者和运维人员深入了解应用内部的工作机制，及时发现并解决性能瓶颈等问题。另外Visual VM还支持插件，详情请参考[https://visualvm.github.io/plugins.html](https://visualvm.github.io/plugins.html)。
+
+
+## 附录
+### Visual VM监控kubernates中的Java应用
+1. Deployment.yml中配置JMX远程连接
+   ```yaml
+   containers:
+     - name: upgrade-java
+       ports:
+         # 配置JMX端口
+         - name: jmx
+           containerPort: 1099
+           protocol: TCP
+       env:
+           - name: JDK_JAVA_OPTIONS
+             # 配置JMX远程连接
+             value: >-
+               -Djava.rmi.server.hostname=localhost
+               -Dcom.sun.management.jmxremote
+               -Dcom.sun.management.jmxremote.port=1099
+               -Dcom.sun.management.jmxremote.ssl=false
+               -Dcom.sun.management.jmxremote.authenticate=false
+               -Dcom.sun.management.jmxremote.rmi.port=1099
+   ```
+2. 端口转发
+
+   ![kube-port-forward-lens.png](assets%2Fkube-port-forward-lens.png)
