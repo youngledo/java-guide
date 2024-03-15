@@ -129,9 +129,9 @@ $ jstat -gc -h5 22388 300 50
 - S0C: 当前幸存者空间0容量（KB）。
 - S1C: 当前幸存者空间1容量（KB）。
 - EC: 当前的伊甸园空间容量(KB)。
-- OGCMN: 最小老年代容量（KB）。
+- OGCMN: 最小老年代容量（Minimum old generation capacity）（KB）。
 - OGCMX: 最大老年代容量（KB）。
-- OGC: 当前老年代容量（KB）。
+- OGC: 当前老年代容量（Current old generation capacity）（KB）。
 - OC: 当前老年代空间容量（KB）。
 - MCMN: 最小元空间容量（KB）。
 - MCMX: 最大元空间容量（KB）。
