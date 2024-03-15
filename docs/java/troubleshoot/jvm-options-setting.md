@@ -33,4 +33,4 @@ Java 9之前用`JAVA_TOOL_OPTIONS`，之后用`JDK_JAVA_OPTIONS`。当然这也�
 
 明明我的服务堆内存以及其它堆外内存使用很少，为什么在kubernates中却显示有那么多？经过多番验证，终于在这篇文章上找到了：[kubernetes pod memory - java gc logs](https://stackoverflow.com/questions/61506136/kubernetes-pod-memory-java-gc-logs)。
 
-**结论就是：因为垃圾收集器（比如G1）一旦使用了内存就不会再返还给操作系统了。**
+**结论就是：因为垃圾收集器（比如G1）一旦使用了内存就不会再返还给操作系统了。不过好在这种情况已经在[JEP 346](https://openjdk.org/jeps/346)被提出了，并且[Java 12](https://openjdk.org/projects/jdk/12/)中修复了。**
