@@ -1,5 +1,6 @@
-# 如何正确的设置JVM参数
+# 如何正确的设置JVM参数，以及kubernates的pod内存疑问？
 
+## 1. 如何正确的设置JVM参数？
 随着服务容器化部署，特别是Docker、Kubernetes横行之下，如何正确的部署服务显得尤为重要，对于Java服务来说部署时设置JVM参数是个常见的事情。但大多数人并不清楚或并不了解在容器中如何正确的设置JVM参数，比如这样的：
 
 ![jvm-dockerfile.png](assets/jvm-dockerfile.png)
@@ -19,3 +20,17 @@ Java 9之前用`JAVA_TOOL_OPTIONS`，之后用`JDK_JAVA_OPTIONS`。当然这也�
 - JAVA_TOOL_OPTIONS：环境变量除了对java命令生效，也对javac、jar等命令生效。
 
 详细解释：[what-is-the-difference-between-jdk-java-options-and-java-tool-options-when-using](https://stackoverflow.com/questions/52986487/what-is-the-difference-between-jdk-java-options-and-java-tool-options-when-using)。
+
+## 2. kubernates的pod内存疑问？
+不知道大家有没有关注pod的内存使用情况，比如下面的图：
+- pod内存
+
+    ![k8s-pod-memory-upgrade_java.png](assets%2Fk8s-pod-memory-upgrade_java.png)
+
+- jhsdb jmap --heap --pid 1
+
+    ![jvm-jhsdb-upgrade_java.png](assets%2Fjvm-jhsdb-upgrade_java.png)
+
+明明我的服务堆内存以及其它堆外内存使用很少，为什么在kubernates中却显示有那么多？经过多番验证，终于在这篇文章上找到了：[kubernetes pod memory - java gc logs](https://stackoverflow.com/questions/61506136/kubernetes-pod-memory-java-gc-logs)。
+
+**结论就是：因为垃圾收集器（比如G1）一旦使用了内存就不会再返还给操作系统了。**

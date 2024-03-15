@@ -71,7 +71,7 @@ java 命令支持以下各类选项：
 -Xms6144k
 -Xms6m
 ```
-**如果未设置此选项，则初始大小将设置为分配给老年代和年轻代的大小之和**。可以使用-Xmn选项或-XX:NewSize选项设置年轻代堆的初始大小。
+**如果未设置此选项，则初始大小将设置为分配给老年代和年轻代的大小之和（据观察在Java 8版本`-Xms = -XX:NewSize + -XX:OldSize`）**。可以使用-Xmn选项或-XX:NewSize选项设置年轻代堆的初始大小。
 > - 选项`-XX:InitalHeapSize`也可以用来设置初始堆大小。如果该选项出现在命令行的-Xms之后，那么初始堆大小将被设置为-XX:InitalHeapSize指定的值。
 > - 注意，它会覆盖`-XX:InitialRAMPercentage`。
 
