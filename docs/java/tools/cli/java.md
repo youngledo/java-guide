@@ -28,6 +28,19 @@ Windows操作系统：javaw命令与java完全相同，只是javaw没有关联�
   java [options] source-file [args...] 
   ```
 
+#### JDK_JAVA_OPTIONS
+您可以使用`JDK_JAVA_OPTIONS`启动器环境变量，将其内容预置到`java`启动器的实际命令行中。
+
+##### 例如
+```bash
+export JDK_JAVA_OPTIONS='-g @file1 -Dprop=value @file2 -Dws.prop="white spaces"' 
+$ java -Xint @file3
+```
+等同于命令行：
+```bash
+java -g @file1 -Dprop=value @file2 -Dws.prop="white spaces" -Xint @file3
+```
+
 ## Java选项
 java 命令支持以下各类选项：
 - 标准的Java选项：Java虚拟机的所有实现都保证支持这些选项。它们用于常见操作，例如检查 JRE 的版本、设置类路径、启用详细输出等。使用`java -help`命令输出标准选项。
@@ -71,7 +84,7 @@ java 命令支持以下各类选项：
 -Xms6144k
 -Xms6m
 ```
-**如果未设置此选项，则初始大小将设置为分配给老年代和年轻代的大小之和（据观察在Java 8版本`-Xms = -XX:NewSize + -XX:OldSize`）**。可以使用-Xmn选项或-XX:NewSize选项设置年轻代堆的初始大小。
+**如果将此选项设置为0，则初始大小将设置为分配给老年代和年轻代的大小之和，即`-Xms = -XX:NewSize + -XX:OldSize`），-Xmx同理**。可以使用-Xmn选项或-XX:NewSize选项设置年轻代堆的初始大小。
 > - 选项`-XX:InitalHeapSize`也可以用来设置初始堆大小。如果该选项出现在命令行的-Xms之后，那么初始堆大小将被设置为-XX:InitalHeapSize指定的值。
 > - 注意，它会覆盖`-XX:InitialRAMPercentage`。
 
@@ -219,23 +232,65 @@ java -XX:+PrintCommandLineFlags -version
 java -XX:+PrintFlagsRanges -version
 ```
 
-
 ### Java高级垃圾回收选项
 这些Java选项控制Java HotSpot VM如何执行垃圾收集(GC)。
 > 有关JVM一些默认值（垃圾回收器、堆、编译器等）的说明：https://docs.oracle.com/en/java/javase/11/gctuning/ergonomics.html#GUID-DA88B6A6-AF89-4423-95A6-BBCBD9FAE781
 
-#### JDK_JAVA_OPTIONS
-您可以使用`JDK_JAVA_OPTIONS`启动器环境变量，将其内容预置到`java`启动器的实际命令行中。
+#### -XX:InitialHeapSize=size
+设置内存分配池的初始大小（以字节为单位）。该值必须是0或1024的倍数且大于1MB。附加字母k或K表示千字节，m或M表示兆字节，附加字母g或G 表示千兆字节。默认值是在运行时根据系统配置选择的。请参阅`Java SE HotSpot虚拟机垃圾收集调优指南`中的[人体工程学](https://docs.oracle.com/en/java/javase/11/gctuning/ergonomics.html#GUID-DB4CAE94-2041-4A16-90EC-6AE3D91EC1F1)部分。
 
-##### 例如
-```bash
-export JDK_JAVA_OPTIONS='-g @file1 -Dprop=value @file2 -Dws.prop="white spaces"' 
-$ java -Xint @file3
+以下示例展示了如何使用各种单位将分配的内存大小设置为6MB：
+```shell
+-XX:InitialHeapSize=6291456
+-XX:InitialHeapSize=6144k
+-XX:InitialHeapSize=6m
 ```
-等同于命令行：
-```bash
-java -g @file1 -Dprop=value @file2 -Dws.prop="white spaces" -Xint @file3
+如果将该选项设置为0，那么初始大小将被设置为分配给老一代和年轻一代的大小之和。新一代堆的大小可以使用`-XX:NewSize`选项来设置。
+> 注意：-Xms 选项设置堆的最小堆大小和初始堆大小。如果`-Xms出现在命令行上的`-XX:InitialHeapSize`之后，则初始堆大小将设置为`-Xms`指定的值。
+
+#### -XX:MaxHeapSize=size
+设置内存分配池的最大大小（以字节为单位）。该值必须是1024的倍数且大于2MB。附加字母k或K表示千字节，m或M表示兆字节，附加字母g或G表示千兆字节。默认值是在运行时根据系统配置选择的。对于服务器部署，选项`-XX:InitialHeapSize`和`-XX:MaxHeapSize`通常设置为相同的值。
+
+以下示例展示如何使用各种单位将分配内存的最大允许大小设置为80MB：
+```shell
+-XX:MaxHeapSize=83886080
+-XX:MaxHeapSize=81920k
+-XX:MaxHeapSize=80m
 ```
+在Oracle Solaris 7和Oracle Solaris 8 SPARC平台上，该值的上限约为4,000MB（减去开销）。在 Oracle Solaris 2.6和x86平台上，上限约为2,000 MB（减去开销）。在 Linux 平台上，上限约为 2,000 MB（减去开销）。
+
+#### -XX:MaxMetaspaceSize=size
+设置可分配给类元数据的本地内存最大容量。默认情况下，大小不受限制。应用程序的元数据量取决于应用程序本身、其他运行中的应用程序以及系统可用内存量。
+
+#### -XX:MaxNewSize=size
+设置年轻一代（幼儿园）堆的最大大小（字节）。默认值的设置符合人体工程学。
+
+#### -XX:MaxTenuringThreshold=threshold
+设置用于自适应GC大小的最大保有阈值。最大值为15。并行（吞吐量）收集器的默认值为 15，CMS 收集器的默认值为 6。
+
+下面的示例显示了如何将最大保有阈值设置为 10：
+```
+-XX:MaxTenuringThreshold=10
+```
+
+#### -XX:NewRatio=ratio
+设置新生代和老年代大小之间的比率。默认情况下，此选项设置为 2。以下示例显示如何将 young-to-old 比率设置为 1：
+```shell
+-XX:NewRatio=1
+```
+
+#### -XX:NewSize=size
+设置年轻代（托儿所）的堆的初始大小（以字节为单位）。附加字母k或K表示千字节，m或M表示兆字节，附加字母g或G表示千兆字节。
+
+堆的年轻代区域用于新对象。 GC 在该区域中执行的频率高于其他区域。如果年轻代的大小太小，则会执行大量的Minor GC。如果大小太高，则仅执行完整 GC，这可能需要很长时间才能完成。 Oracle 建议您将年轻代的大小保持在总堆大小的 25% 以上且小于 50% 之间。
+
+以下示例展示了如何使用各种单位将年轻代的初始大小设置为 256 MB：
+```shell
+-XX:NewSize=256m
+-XX:NewSize=262144k
+-XX:NewSize=268435456
+```
+
 
 ## 附加项
 
