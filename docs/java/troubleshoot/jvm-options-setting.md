@@ -25,12 +25,16 @@ Java 9之前用`JAVA_TOOL_OPTIONS`，之后用`JDK_JAVA_OPTIONS`。当然这也�
 不知道大家有没有关注pod的内存使用情况，比如下面的图：
 - pod内存
 
-    ![k8s-pod-memory-upgrade_java.png](assets%2Fk8s-pod-memory-upgrade_java.png)
+    ![k8s-pod-memory-upgrade_java.png](assets/k8s-pod-memory-upgrade_java.png)
 
 - jcmd 1 VM.native_memory
     
-    ![jcmd-VM.native_memory-upgrade_java.png](assets%2Fjcmd-VM.native_memory-upgrade_java.png)
+    ![jcmd-VM.native_memory-upgrade_java.png](assets/jcmd-VM.native_memory-upgrade_java.png)
 
 明明我的服务堆内存以及其它堆外内存使用很少，为什么在kubernates中却显示有那么多？经过多番验证，终于在这篇文章上找到了：[kubernetes pod memory - java gc logs](https://stackoverflow.com/questions/61506136/kubernetes-pod-memory-java-gc-logs)以及[Does GC release back memory to OS?](https://stackoverflow.com/questions/30458195/does-gc-release-back-memory-to-os)。
 
 结论：由于不同版本、不同垃圾收集器采用的策略不一样，比如Java 12之前G1一旦使用了内存就不会再返还给操作系统了。不过好在这种情况已经在[JEP 346](https://openjdk.org/jeps/346)被提出了，并且[Java 12](https://openjdk.org/projects/jdk/12/)中修复了。不过，默认情况下该策略是禁止的，可以通过`-XX:G1PeriodicGCInterval`、`-XX:G1PeriodicGCSystemLoadThreshold`参数来调节（默认值是0），具体情况请结合实际场景决定。
+
+## 附录
+1. [Memory Footprint of a Java Process](https://www.youtube.com/watch?v=c755fFv1Rnk)
+2. [Java using much more memory than heap size (or size correctly Docker memory limit)](https://stackoverflow.com/questions/53451103/java-using-much-more-memory-than-heap-size-or-size-correctly-docker-memory-limi)
