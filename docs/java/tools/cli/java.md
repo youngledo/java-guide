@@ -7,24 +7,24 @@
 Windows操作系统：javaw命令与java完全相同，只是javaw没有关联的控制台窗口。如果不希望出现命令提示窗口，请使用javaw。不过，如果启动失败，javaw 启动器会显示一个包含错误信息的对话框。
 
 - 启动一个类文件：
-  ```bash
+  ```shell
   java [options] mainclass [args ...]
   ```
 - 启动jar文件的主类：执行封装在JAR文件中的程序。jarfile参数是JAR文件的名称，其清单包含*Main-Class:classname*形式的行，该行使用`public static void main(String[] args)`方法定义类，该方法用作应用程序的起点。使用 -jar 时，指定的 JAR 文件是所有用户类的源，其他类路径设置将被忽略。
-  ```bash
+  ```shell
   java [options] -jar jarfile [args ...]
   ```
 - 启动模块中的主类：如果给定了*mainclass*，则执行*mainclass*指定模块中的主类；如果没有给定，则执行模块中的值。换句话说，当模块未指定 mainclass 时，可以使用它；当模块指定了*mainclass*时，可以覆盖它的值。
-  ```bash
+  ```shell
   java [options] -m module[/mainclass] [args ...]
   ```
   或者
-  ```bash
+  ```shell
   java [options] --module module[/mainclass] [args ...]
   ```
 - 启动单个源文件程序：
   仅用于启动单个源文件程序。使用源文件模式时指定包含主类的源文件。请参阅[使用源文件模式启动单文件源代码程序](https://docs.oracle.com/en/java/javase/11/tools/java.html#GUID-3B1CE181-CD30-4178-9602-230B800D4FAE__USINGSOURCE-FILEMODETOLAUNCHSINGLE--B5E57618)。
-  ```bash
+  ```shell
   java [options] source-file [args...] 
   ```
 
@@ -32,12 +32,12 @@ Windows操作系统：javaw命令与java完全相同，只是javaw没有关联�
 您可以使用`JDK_JAVA_OPTIONS`启动器环境变量，将其内容预置到`java`启动器的实际命令行中。
 
 ##### 例如
-```bash
+```shell
 export JDK_JAVA_OPTIONS='-g @file1 -Dprop=value @file2 -Dws.prop="white spaces"' 
 $ java -Xint @file3
 ```
 等同于命令行：
-```bash
+```shell
 java -g @file1 -Dprop=value @file2 -Dws.prop="white spaces" -Xint @file3
 ```
 
@@ -59,6 +59,34 @@ java 命令支持以下各类选项：
 ### 标准的Java选项
 这些是所有JVM实现都支持的最常用选项。
 > 要为长选项指定参数，可以使用 --name=value 或 --name value。
+
+##### -agentlib:libname[=options]
+加载指定的本机代理库。在库名称之后，可以使用逗号分隔选项列表。
+- **Oracle Solaris、Linux和macOS**：如果指定了-agentlib:foo选项，则JVM将尝试在`LD_library_PATH`系统变量指定的位置加载名为libfoo.so的库（在macOS上，此变量为`DYLD_LIBRARI_PATH`）。
+- **Windows**：如果指定了-agentlib:foo选项，那么JVM将尝试在`PATH`系统变量指定的位置加载名为foo.dll的库。
+  
+以下示例显示了如何加载Java Debug Wire Protocol（JDWP）库并侦听端口8000上的套接字连接，从而在加载主类之前挂起JVM：
+```shell
+-agentlib:jdwp=transport=dt_socket,server=y,address=8000
+````
+
+##### -Dproperty=value
+定义系统属性值。`property`变量是一个不带空位的字符串，代表属性的名称。`value`变量是表示属性值的字符串。如果值是带空位的字符串，则用引号将其括起来（例如`-Dfoo="foo bar"`）。
+
+##### -javaagent:jarpath[=options]
+加载指定的Java编程语言代理。
+
+##### -X
+将有关额外选项的帮助打印到错误流中。
+
+##### @argfile
+指定Java命令使用的一个或多个以`@`为开头的参数文件。由于类路径中需要`.jar`文件，Java命令行非常长的情况并不罕见。`@argfile`选项通过使启动器能够在shell扩展后但在参数处理之前扩展参数文件的内容来克服命令行长度限制。参数文件中的内容将被扩展，因为否则，它们将在命令行上指定，直到遇到`-Xdisable-@files`选项。
+
+参数文件还可以包含主类名和所有选项。如果参数文件包含java命令所需的所有选项，那么命令行可以简单地为：
+```shell
+java @argfile
+```
+有关使用`@argfile`的描述和示例，请参阅[java命令行参数文件](#java命令行参数文件)。
 
 ### 额外的Java选项
 ##### -Xlog:option
@@ -291,6 +319,89 @@ java -XX:+PrintFlagsRanges -version
 -XX:NewSize=268435456
 ```
 
+### java命令行参数文件
+您可以使用`@argument_files`来指定一个或多个包含参数的文本文件，例如传递给`java`命令的选项和类名，从而缩短或简化`java`命令。这使您可以在任何操作系统上创建任何长度的java命令。
+
+在命令行中，使用at符号（`@`）前缀来标识包含java选项和类名的参数文件。当java命令遇到一个以at符号（`@`）开头的文件时，它会将该文件的内容扩展到参数列表中，就像在命令行中指定的那样。
+
+java启动器将展开参数文件内容，直到遇到`-Xdisable-@files`选项。您可以在命令行的任何位置（包括参数文件中）使用`-Xdisable-@files`选项来停止`@argument_files`扩展。
+
+以下项目描述了java参数文件的语法：
+- 参数文件必须仅包含ASCII字符或ASCII友好的系统默认编码中的字符，如UTF-8。
+- 参数文件大小不得超过MAXINT (2,147,483,647) 字节。
+- 启动器不会扩展存在于参数文件中的通配符。
+- 使用空格或换行符分隔文件中包含的参数。
+- 空白包括空白字符`\t`、`\n`、`\r`和`\f`。
+  例如，可以有一个带有空格的路径，例如`c:\Program Files`，可以指定为`"c:\\Program Files"`，或者为避免转义，可以指定`c:\Program" "Files`。
+- 任何包含空白的选项（例如路径组件）都必须位于使用引号（`""`）字符的引号内。
+- 引号内的字符串可能包含字符`\n`、`\r`、`\t`和`\f`。它们被转换为各自的ASCII代码。
+- 如果文件名包含嵌入的空格，请将整个文件名用双引号括起来。
+- 参数文件中的文件名是相对于当前目录的，而不是相对于参数文件的位置的。
+- 使用参数文件中的数字符号（`#`）来标识注释。#后面的所有字符都将被忽略，直到行结束。
+- 前缀选项的附加at符号（`@`）前缀充当转义符（第一个`@`被删除，其余参数直接显示给启动器）。
+- 可以使用行尾的延续字符（`\`）来延续行。这两条线相连，并修剪了前面的空白。为了防止修剪前面的空白，可以在第一列放置延续字符（`\`）。
+- 因为反斜杠（`\`）是一个转义符，所以反斜杠字符必须用另一个反斜杠字符转义。
+- 允许使用部分引号，并以文件结尾结束。
+- 除非`\`是最后一个字符，否则开放式引号将在行尾停止，然后通过删除所有前导空格字符来加入下一行。
+- 这些列表中不允许使用通配符（*）（例如指定`*.java`）。
+- 不支持使用at符号（`@`）递归解释文件。
+
+#### 参数文件中的开放引号或部分引号示例
+在参数文件中，
+```shell
+-cp "lib/
+cool/
+app/
+jars
+```
+这被解释为：
+```
+-cp lib/cool/app/jars
+```
+
+#### 参数文件中反斜线字符与另一个反斜线字符一起转义的示例
+输出以下内容:
+```shell
+-cp c:\Program Files (x86)\Java\jre\lib\ext;c:\Program Files\Java\jre9\lib\ext
+```
+反斜杠字符必须在参数文件中指定为:
+```shell
+-cp  "c:\\Program Files (x86)\\Java\\jre\\lib\\ext;c:\\Program Files\\Java\\jre9\\lib\\ext"
+```
+
+#### 用于强制参数文件中的行连接的EOL转义示例
+在参数文件中，
+```shell
+-cp "/lib/cool app/jars:\
+    /lib/another app/jars"
+```
+这被解释为：
+```shell
+-cp /lib/cool app/jars:/lib/another app/jars
+```
+
+#### 参数文件中带前导空格的换行示例
+在参数文件中，
+```shell
+-cp "/lib/cool\ 
+\app/jars” 
+```
+这被解释为：
+```shell
+-cp /lib/cool app/jars
+```
+
+#### 使用单个参数文件的示例
+您可以使用单个参数文件 (如以下示例中的`myargumentfile`) 来保存所有必需的java参数：
+```shell
+java @myargumentfile
+```
+
+#### 使用带路径的参数文件的示例
+可以在参数文件中包含相对路径；但是，它们是相对于当前工作目录的，而不是相对于参数文件本身的路径。在以下示例中，`path1/options`和`path2/options`表示具有不同路径的参数文件。它们包含的任何相对路径都是相对于当前工作目录的，而不是相对于参数文件的：
+```shell
+java @path1/options @path2/classes
+```
 
 ## 附加项
 
