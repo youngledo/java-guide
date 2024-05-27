@@ -38,4 +38,5 @@
     * [如何正确的设置JVM参数，以及pod内存疑问？](java/troubleshoot/jvm-options-setting.md)
     * [如何分发Java制品到Maven仓库](java/troubleshoot/maven-distribution-artifact.md)
     * [关于SpringBoot中3个探针的原理分析](java/troubleshoot/spring-boot-actuator-probe.md)
+    * [使用Visual VM和IDEA Profiler对内存进行优化](java/troubleshoot/memory-performance-optimization.md)
 
