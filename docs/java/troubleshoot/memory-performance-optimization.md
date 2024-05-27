@@ -1,18 +1,16 @@
-## 开发环境
+## 一、前置准备
 ### 1. 环境配置
 - GraalVM 17
 - macOS M1 16GB
 
 ### 2. JVM选项设置
-```bash
--XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/app/dump/upgrade-java.hprof
-```
+默认值，不做任何的配置。
 
 ### 3. 测试准备
 - 压缩包：4个安装包（包含platform-5.1.5.36.zip）
 - 清空minio中的文件
 
-## 诊断工具
+## 二、诊断过程
 ### 1. 使用`Visual VM`观察CPU、内存、线程情况：
 - 静止状态下，内存运行情况。
   1. GraalVM 17
@@ -49,14 +47,16 @@ CPU消耗主要集中在下载安装包上面。
 
 **备注**：关于`jfr`的分配为何这么大，参考此文章：[关于使用IDEA的profiler的内存分配的疑问 : IDEA-340722 (jetbrains.com)](https://youtrack.jetbrains.com/issue/IDEA-340722/IDEAprofiler)
 
-###### 优化方案
+## 三、优化方案
 1. 减少buffer的new的次数，只需要new一个即可；
 2. 改造压缩流到文件的使用方式。
 
     ![img_7.png](assets/memory-performance-optimization/img_7.png)
 - 效果：
   - 优化前：[StartApplication_2023_12_12_204042-FileUtils#copyToFile.jfr](https://drive.weixin.qq.com/s?k=AIsAVQcAABIhUcQNyy)
+  
   ![img_8.png](assets/memory-performance-optimization/img_8.png)
+    
     - 单独测试解压（频繁的GC） 
     
     ![img_9.png](assets/memory-performance-optimization/img_9.png)
