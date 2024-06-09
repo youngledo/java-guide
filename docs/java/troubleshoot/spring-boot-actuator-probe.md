@@ -23,4 +23,5 @@
 但问题来了，在什么情况下才算“存活”，什么情况下才算“就绪”呢？答案就是WebServer启动好了就算“存活”，当执行完ApplicationRunner和CommandLineRunner之后就算“就绪了”，否则启动失败处理。
 
 ![img_9.png](assets/spring-boot-actuator-probe/img_9.png)
+
 因此，对于部署在K8S的服务，如何配置启动探针的时长取决于你的服务何时能存活，当然如果严谨一点也可以放在存活或就绪之后。
