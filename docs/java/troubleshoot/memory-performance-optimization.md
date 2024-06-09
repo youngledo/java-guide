@@ -19,8 +19,9 @@
   2. Eclipse JDK 11
   
   ![img.png](assets/memory-performance-optimization/img.png)
-- 下图经历过线程池并行处理包（下载、解压、上传、路径适配）、调用租户接口获取租户、元数据、SQL等插件的逻辑。
-  ![img_1.png](assets/memory-performance-optimization/img_1.png)
+  - 下图经历过线程池并行处理包（下载、解压、上传、路径适配）、调用租户接口获取租户、元数据、SQL等插件的逻辑。
+    
+    ![img_1.png](assets/memory-performance-optimization/img_1.png)
 
 #### 分析
 可见，CPU的使用率很低，主要集中在内存和GC上。
@@ -40,8 +41,9 @@ CPU消耗主要集中在下载安装包上面。
 ![img_4.png](assets/memory-performance-optimization/img_4.png)
 
 通过跟踪，发现解压时`FileUtils#copyToFile`方法内存分配很大。继续跟着发现缓冲区有`73.9MB`，而实际默认缓冲区才8KB，为何这么大？
-![img_5.png](assets/memory-performance-optimization/img_5.png)
-![img_6.png](assets/memory-performance-optimization/img_6.png)
+  
+  ![img_5.png](assets/memory-performance-optimization/img_5.png)
+  ![img_6.png](assets/memory-performance-optimization/img_6.png)
 
 可以看到“每次都new了新的buffer”，这就造成循环内生成大量的以8KB的数组对象，该对象只有等待方法结束之后才有可能被GC。
 
@@ -58,9 +60,11 @@ CPU消耗主要集中在下载安装包上面。
   
   ![img_8.png](assets/memory-performance-optimization/img_8.png)
 
-  - 优化后：[StartApplication_2023_12_13_103851-IOUtils#copyLarge.jfr.zip](https://drive.weixin.qq.com/s?k=AIsAVQcAABIksyYgLC)
-    ![img_10.png](assets/memory-performance-optimization/img_10.png)
+  - 优化后：[StartApplication_2023_12_13_103851-IOUtils#copyLarge.jfr.zip](https://drive.weixin.qq.com/s?k=AIsAVQcAABIksyYgLC) 
+
+  ![img_10.png](assets/memory-performance-optimization/img_10.png)
     - 解压内存分配减少100MB
+    
     ![img_11.png](assets/memory-performance-optimization/img_11.png)
 
 ### GC
