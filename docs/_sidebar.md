@@ -1,17 +1,19 @@
 <!-- docs/_sidebar.md -->
 
-- ⛓️**基金会**
+- ⚖️ **基金会**
   - **Apache**
     - [简介](apache/apache.md)
-    - 🧰 Commons
-      - [首页](apache/commons.md)
+    - **Commons**
+      - [首页](apache/commons/commons.md)
       - CLI
-        - [概述](apache/cli/overview.md)
-        - [用户指南](apache/cli/getting-started.md)
-        - [使用CLI](apache/cli/using-cli.md)
+        - [概述](apache/commons/cli/overview.md)
+        - [用户指南](apache/commons/cli/getting-started.md)
+        - [使用CLI](apache/commons/cli/using-cli.md)
+    - **Maven**
+      - [如何分发Java制品到Maven仓库](apache/maven/maven-distribution-artifact.md)
   - **Eclipse**
 - 🚀 **Java**
-  - ⚒️工具
+  - **工具**
     - [概述](java/tools/overview.md)
     - 命令行
       - [java](java/tools/cli/java.md)
@@ -36,7 +38,6 @@
       - [自定义](java/tools/third/custom.md)
   - ❓疑难杂症
     - [如何正确的设置JVM参数，以及pod内存疑问？](java/troubleshoot/jvm-options-setting.md)
-    - [如何分发Java制品到Maven仓库](java/troubleshoot/maven-distribution-artifact.md)
     - [关于SpringBoot中3个探针的原理分析](java/troubleshoot/spring-boot-actuator-probe.md)
     - [使用Visual VM和IDEA Profiler对内存进行优化](java/troubleshoot/memory-performance-optimization.md)
 - 🔥 **Kubernetes**
