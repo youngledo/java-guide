@@ -13,12 +13,12 @@
       <repository>
           <id>maven-releases</id>
           <name>Nexus</name>
-          <url>https://nexus.mingyuanyun.com/repository/maven-releases/</url>
+          <url>https://nexus.youngledo.com/repository/maven-releases/</url>
       </repository>
       <snapshotRepository>
            <id>maven-snapshot</id>
            <name>Nexus</name>
-           <url>https://nexus.mingyuanyun.com/repository/maven-snapshots/</url>
+           <url>https://nexus.youngledo.com/repository/maven-snapshots/</url>
      </snapshotRepository>
   </distributionManagement>
   ```
@@ -30,28 +30,32 @@
       <!-- 部署仓库配置，需注意认证配置 -->
       <properties>
           <!-- 2.8版本开始配置方式 -->
-          <altSnapshotDeploymentRepository>maven-snapshot::default::https://nexus.mingyuanyun.com/repository/maven-snapshots</altSnapshotDeploymentRepository>
-          <altReleaseDeploymentRepository>maven-releases::default::https://nexus.mingyuanyun.com/repository/maven-releases</altReleaseDeploymentRepository>
+          <altSnapshotDeploymentRepository>maven-snapshot::default::https://nexus.youngledo.com/repository/maven-snapshots</altSnapshotDeploymentRepository>
+          <altReleaseDeploymentRepository>maven-releases::default::https://nexus.youngledo.com/repository/maven-releases</altReleaseDeploymentRepository>
   
           <!-- 2.8版本之前配置方式 -->
-          <altDeploymentRepository>maven-snapshot::default::https://nexus.mingyuanyun.com/repository/maven-snapshots</altDeploymentRepository>
+          <altDeploymentRepository>maven-snapshot::default::https://nexus.youngledo.com/repository/maven-snapshots</altDeploymentRepository>
       </properties>
   </profile>
   ```
   这种方式则能很好的统一调控，但一般来说settings是独立于各个机器上，开发阶段不太方便。此方式就是上述问题中实施的，我们就以此方式来研究下到底该怎么做。
 
 ### 解决
-上述同学采用的是settings.xml方式，同时从上述报错可知，使用的是org.apache.maven.plugins:maven-deploy-plugin:2.7:deploy，提示信息告知`-DaltDeploymentRepository=id::layout::url`没有指定。检查settings.xml配置，发现有如下配置：
+上述同学采用的是settings.xml方式，同时从上述报错可知，使用的是org.apache.maven.plugins:maven-deploy-plugin:2.7:deploy，错误日志提醒两个问题：
+1. 仓库元素没有在POM的`distributionManagement`元素中指定。
+2. 仓库元素没有在`-DaltDeploymentRepository=id::layout::url`参数中指定。
+
+检查settings.xml配置，发现有如下配置：
 ```xml
 <profile>
   <id>mingyuan-nexus</id>
   <properties>
-    <altSnapshotDeploymentRepository>maven-snapshot::default::https://nexus.mingyuanyun.com/repository/maven-snapshots</altSnapshotDeploymentRepository>
-    <altReleaseDeploymentRepository>maven-releases::default::https://nexus.mingyuanyun.com/repository/maven-releases</altReleaseDeploymentRepository>
+    <altSnapshotDeploymentRepository>maven-snapshot::default::https://nexus.youngledo.com/repository/maven-snapshots</altSnapshotDeploymentRepository>
+    <altReleaseDeploymentRepository>maven-releases::default::https://nexus.youngledo.com/repository/maven-releases</altReleaseDeploymentRepository>
   </properties>
 </profile>
 ```
-配置中没有“altDeploymentRepository”相关属性设置，却有“altSnapshotDeploymentRepository”和“altReleaseDeploymentRepository”的属性配置。问题分析到那只有一种可能就是上述配置与插件“org.apache.maven.plugins:maven-deploy-plugin:2.7”不匹配，上述配置应该是其它版本的。翻看该插件的2.7版本源码（maven-deploy-plugin/DeployMojo.java at maven-deploy-plugin-2.7 · apache/maven-deploy-plugin · GitHub），果然没有上述的读取逻辑，如下图：
+配置中没有“altDeploymentRepository”相关属性设置，却有“altSnapshotDeploymentRepository”和“altReleaseDeploymentRepository”的属性配置。问题分析到那只有一种可能就是上述配置与插件“org.apache.maven.plugins:maven-deploy-plugin:2.7”不匹配，上述配置应该是其它版本的。翻看该插件的2.7版本源码（[maven-deploy-plugin](https://github.com/apache/maven-deploy-plugin)），果然没有上述的读取逻辑，如下图：
 ![maven-deploy-mojo-2.7.png](assets/maven-distribution-artifact/maven-deploy-mojo-2.7.png)
 与此同时查看2.8版本的源码，如下图：
 ![maven-deploy-mojo.png](assets/maven-distribution-artifact/maven-deploy-mojo.png)
@@ -73,7 +77,7 @@ mvn -DdistributionTargetDir="/Users/huangxiao/IdeaProjects/maven-maven-3.8.1/tem
 ```
 指定项目使用的Maven路径
 ![idea-maven-home.png](assets/maven-distribution-artifact/idea-maven-home.png)
-至此，问题分析完毕，此后在遇到类似问题就知道为啥了～
+至此，问题分析完毕，此后在遇到类似问题就知道为啥了～但在这里要吐槽一下，命名maven的错误日志已经提醒的很明白了，为何还是看不懂？这个要反思一下！
 
 ### 补充说明
 另外还有个关于 SpringBoot插件的问题当初在用 Jenkins 构建时报以下错误：
