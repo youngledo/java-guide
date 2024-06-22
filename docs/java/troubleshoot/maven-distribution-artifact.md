@@ -79,6 +79,8 @@ mvn -DdistributionTargetDir="/Users/huangxiao/IdeaProjects/maven-maven-3.8.1/tem
 ![idea-maven-home.png](assets/maven-distribution-artifact/idea-maven-home.png)
 至此，问题分析完毕，此后在遇到类似问题就知道为啥了～但在这里要吐槽一下，命名maven的错误日志已经提醒的很明白了，为何还是看不懂？这个要反思一下！
 
+注意：另外，还需要重点关注不同版本的插件，逻辑上有变化。更多详情请参考：[https://maven.apache.org/plugins/maven-deploy-plugin/index.html](https://maven.apache.org/plugins/maven-deploy-plugin/index.html)
+
 ### 补充说明
 另外还有个关于 SpringBoot插件的问题当初在用 Jenkins 构建时报以下错误：
 ![maven-jenkins.png](assets/maven-distribution-artifact/maven-jenkins.png)
