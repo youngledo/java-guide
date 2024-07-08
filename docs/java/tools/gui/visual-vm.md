@@ -43,7 +43,6 @@
              # 配置JMX远程连接
              value: >-
                -Djava.rmi.server.hostname=localhost
-               -Dcom.sun.management.jmxremote
                -Dcom.sun.management.jmxremote.port=1099
                -Dcom.sun.management.jmxremote.ssl=false
                -Dcom.sun.management.jmxremote.authenticate=false
