@@ -4,7 +4,7 @@
 > 它可以显示本地或者远程虚拟机进程中的类装载、内存、垃圾回收、JIT编译器（即时编译器）等运行数据。 在没有图形化界面时，它将是运行期定位虚拟机性能问题的首选工具。
 
 ## 使用说明
-![jstat-help.png](assets/jstat-help.png)
+![jstat-help.png](assets/jstat/jstat-help.png)
 
 ### 选项说明
 #### 1. class选项：显示有关类加载器行为的统计信息。

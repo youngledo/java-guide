@@ -15,7 +15,7 @@
 
 终端输入`jstack`即可查看帮助手册：
 
-![jstack.png](assets/jstack.png)
+![jstack.png](assets/jstack/jstack.png)
 
 ```bash
 $ jstack 18880

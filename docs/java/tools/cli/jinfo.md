@@ -6,7 +6,7 @@
 
 ## 使用说明
 
-![jinfo-help.png](assets/jinfo-help.png)
+![jinfo-help.png](assets/jinfo/jinfo-help.png)
 
 ### 选项
 
@@ -16,7 +16,7 @@
   $ jinfo -flag MaxHeapSize 8404
   -XX:MaxHeapSize=167772160
   ```
-  ![jinfo-flag.png](assets/jinfo-flag.png)
+  ![jinfo-flag.png](assets/jinfo/jinfo-flag.png)
 
 - -flag `[+|-]name`：启用或禁用指定的布尔命令行标志（立即生效）。
   ```bash
@@ -33,7 +33,7 @@
 
 - -flags：打印传递给JVM的命令行标志。
 
-  ![jinfo-flags.png](assets/jinfo-flags.png)
+  ![jinfo-flags.png](assets/jinfo/jinfo-flags.png)
 - -sysprops：以键值对的形式打印Java系统属性。
 
 - **不加选项**：则打印`flags`和`sysprops`的选项参数，以及虚拟机参数（`VM Arguments`）。
@@ -62,8 +62,8 @@
 # 打印虚拟机可以被管理的标志的最终值
 java -XX:+PrintFlagsFinal -version | grep manageable
 ```
-![java-manageable.png](assets/java-manageable.png)
+![java-manageable.png](assets/java/java-manageable.png)
 
 否则抛出异常：
 
-![jinfo-flag-set.png](assets/jinfo-flag-set.png)
+![jinfo-flag-set.png](assets/jinfo/jinfo-flag-set.png)

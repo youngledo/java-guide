@@ -6,7 +6,7 @@
 
 终端输入`jmap`即可查看帮助手册：
 
-![jmap.png](assets/jmap.png)
+![jmap.png](assets/jmap/jmap.png)
 
 ### 选项
 - dump
