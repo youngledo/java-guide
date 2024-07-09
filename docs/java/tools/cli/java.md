@@ -38,7 +38,7 @@ Windows操作系统：javaw命令与java完全相同，只是javaw没有关联�
 
 您可以使用`JDK_JAVA_OPTIONS`启动器环境变量，将其内容预置到`java`启动器的实际命令行中。
 
-##### 例如
+例如
 
 ```shell
 export JDK_JAVA_OPTIONS='-g @file1 -Dprop=value @file2 -Dws.prop="white spaces"' 
@@ -123,16 +123,16 @@ java @argfile
 
 ### 额外的Java选项
 
-##### -Xlog:option
+#### -Xlog:option
 
 使用Java虚拟机 (JVM)
 统一日志记录框架配置或启用日志记录。请参阅[使用JVM统一日志记录框架启用日志记录](https://docs.oracle.com/en/java/javase/11/tools/java.html#GUID-BE93ABDC-999C-4CB5-A88B-1994AAAC74D5)。
 
-##### -Xloggc:option
+#### -Xloggc:option
 
 启用JVM统一日志记录框架。将GC状态记录到带有时间戳的文件中。
 
-##### -Xmn size
+#### -Xmn size
 
 设置年轻代堆的初始大小和最大大小（以字节为单位）。用字母k或K表示千字节，用m或M表示兆字节，用g或G表示千兆字节。堆的新生代区域用于存放新对象。在该区域执行GC的频率高于其他区域。如果年轻代的大小太小，就会执行很多次要的垃圾回收。如果大小过大，则只执行完全垃圾回收（full
 GC），这可能需要很长时间才能完成。**Oracle建议，年轻代的大小应大于堆总大小的25%，小于50%**
@@ -147,7 +147,7 @@ GC），这可能需要很长时间才能完成。**Oracle建议，年轻代的�
 你可以使用`-XX:NewSize`来设置初始大小，使用`-XX:MaxNewSize`来设置最大大小，而不是使用`-Xmn`选项来设置新生代堆的初始大小和最大大小。
 > 注意：年轻代，也有翻译成新生代。
 
-##### -Xms size
+#### -Xms size
 
 设置堆的最小和初始大小（以字节为单位）。该值必须是1024的倍数且大于1MB。用字母k或K表示千字节，用m或M表示兆字节，用g或G表示千兆字节。下面的示例展示了如何使用各种单位将分配内存的大小设置为6MB：
 
@@ -163,7 +163,7 @@ GC），这可能需要很长时间才能完成。**Oracle建议，年轻代的�
     InitalHeapSize指定的值。
 > - 注意，它会覆盖`-XX:InitialRAMPercentage`。
 
-##### -Xmx size
+#### -Xmx size
 
 指定内存分配池的最大大小（以字节为单位），单位为字节。**此值必须是1024的倍数并且大于2MB**
 。附加字母k或k表示千字节，m或m表示兆字节，g或g表示千兆字节。默认值是在运行时根据系统配置选择的。对于服务器部署，-Xms和-Xmx通常设置为相同的值。以下示例显示了如何使用各种单位将已分配内存的最大允许大小设置为80MB：
@@ -177,7 +177,7 @@ GC），这可能需要很长时间才能完成。**Oracle建议，年轻代的�
 > - -Xmx选项等同于于`-XX:MaxHeapSize`。
 > - 注意，它会覆盖`-XX:MaxRAMPercentage`。
 
-##### -XshowSettings:category
+#### -XshowSettings:category
 
 显示设置，该选项的可能类别参数如下：
 
@@ -192,7 +192,7 @@ GC），这可能需要很长时间才能完成。**Oracle建议，年轻代的�
 java -XshowSettings:vm -version
 ```
 
-##### -Xss size
+#### -Xss size
 
 设置线程堆栈大小（以字节为单位）。附加字母k或k表示KB，m或m表示MB，g或g表示GB。默认值取决于平台：
 
@@ -215,15 +215,15 @@ java -XshowSettings:vm -version
 
 以下是macOS专用的额外选项。
 
-##### -XstartOnFirstThread
+#### -XstartOnFirstThread
 
 在第一个（AppKit）线程上运行main()方法。
 
-##### -Xdock:name=application_name
+#### -Xdock:name=application_name
 
 覆盖dock中显示的默认应用程序名称。
 
-##### -Xdock:icon=path_to_icon_file
+#### -Xdock:icon=path_to_icon_file
 
 覆盖dock中显示的默认图标。
 
@@ -231,14 +231,14 @@ java -XshowSettings:vm -version
 
 这些Java选项控制Java HotSpot虚拟机的运行时行为。
 
-##### -XX:ActiveProcessorCount=x
+#### -XX:ActiveProcessorCount=x
 
 覆盖虚拟机将用于计算用于各种操作（如垃圾回收和ForkJoinPool）的线程池大小的CPU数。
 
 虚拟机通常会从操作系统中确定可用处理器的数量。在 docker 容器中运行多个 Java
 进程时，该标签可用于划分CPU资源。即使未启用UseContainerSupport，也会启用该标签。有关启用和禁用容器支持的说明，请参阅`-XX:-UseContainerSupport`。
 
-##### -XX:MaxDirectMemorySize=size（俗称堆外内存）
+#### -XX:MaxDirectMemorySize=size（俗称堆外内存）
 
 设置`java.nio`包直接缓冲区分配的最大总大小（以字节为单位）。用字母k或K表示千字节，用m或M表示兆字节，用g或G表示千兆字节。默认情况下，大小设置为0，这意味着JVM会自动选择NIO直接缓冲区分配的大小。
 
@@ -254,7 +254,7 @@ java -XshowSettings:vm -version
 
 - [JVM源码分析之堆外内存完全解读](http://lovestblog.cn/blog/2015/05/12/direct-buffer/)
 
-##### -XX:OnError=string
+#### -XX:OnError=string
 
 设置在发生不可恢复的错误时运行的自定义命令或一系列以分号分隔的命令。如果字符串包含空格，则必须将其括在引号中。
 
@@ -270,26 +270,121 @@ java -XshowSettings:vm -version
 -XX:OnError="userdump.exe %p"
 ```
 
-##### -XX:OnOutOfMemoryError=string
+#### -XX:OnOutOfMemoryError=string
 
 设置一个自定义命令或一系列分号分隔的命令，以在首次引发`OutOfMemoryError`
 异常时运行。如果字符串包含空格，则必须用引号括起来。有关命令字符串的示例，请参阅`-XX:OnError`选项的说明。
 
-##### -XX:+PrintFlagsInitial
+#### -XX:FlightRecorderOptions=parameter=value
+设置控制JFR行为的参数。
+
+以下列表包含可用的JFR parameter=value 条目：
+##### allow_threadbuffers_to_disk={true|false}
+指定如果缓冲区线程被阻塞，是否将线程缓冲区直接写入磁盘。默认情况下，此参数处于禁用状态。
+
+##### globalbuffersize=size
+指定用于数据保留的主内存总量。默认值基于为 memorysize 指定的值。更改 memorysize 参数以更改全局缓冲区的大小。
+
+##### maxchunksize=size
+指定记录中数据区块的最大大小（以字节为单位）。追加 m 或 M 以指定以兆字节（MB）为单位的大小，追加 g 或 G 以指定以千兆字节（GB）为单位的大小。默认情况下，数据块的最大大小设置为12 MB。允许的最小值为1 MB。
+
+##### memorysize=size
+确定应该使用多少缓冲区内存，并根据指定的大小设置 globalbuffersize 和 numglobalbuffers 参数。追加 m 或 M 以指定以兆字节（MB）为单位的大小，追加 g 或 G 以指定以千兆字节（GB）为单位的大小。默认情况下，内存大小设置为10 MB。
+
+##### numglobalbuffers
+指定使用的全局缓冲区数。默认值基于指定的内存大小。更改 memorysize 参数以更改全局缓冲区的数量。
+
+##### old-object-queue-size=number-of-objects
+要跟踪的旧对象的最大数量。默认情况下，对象数设置为256。
+
+##### repository=path
+指定用于临时磁盘存储的存储库（目录）。默认情况下，使用系统的临时目录。
+
+##### retransform={true|false}
+指定是否应使用JVMTI重新转换事件类。如果为false，则在加载事件类时添加检测。默认情况下，此参数处于启用状态。
+
+##### samplethreads={true|false}
+指定是否启用线程采样。仅当沿着此参数启用采样事件时，才发生线程采样。默认情况下，此参数处于启用状态。
+
+##### stackdepth=depth
+堆栈跟踪的堆栈深度。默认情况下，深度设置为64个方法调用。最大值为2048。大于64的值可能会产生显著的开销并降低性能。
+
+##### threadbuffersize=size
+指定每个线程的本地缓冲区大小（以字节为单位）。默认情况下，本地缓冲区大小设置为8 KB。覆盖此参数可能会降低性能，因此不建议使用。
+
+您可以指定多个参数的值，方法是用逗号分隔它们。
+
+#### -XX:StartFlightRecording=parameter=value
+为Java应用程序启动JFR录制。此选项等同于在运行时启动记录的 JFR.start diagnostic命令。开始JFR录制时，您可以设置以下 parameter=value 项：
+
+###### delay=time
+指定Java应用程序启动时间和录制开始时间之间的延迟。追加 s 以指定时间（以秒为单位），追加 m 以指定分钟，追加 h 以指定小时，追加 d 以指定天。例如，指定 10m 表示10分钟。默认情况下，没有延迟，此参数设置为0。
+
+###### disk={true|false}
+指定是否将临时数据写入磁盘存储库。默认情况下，此参数设置为 false 。要启用它，请将参数设置为 true 。
+
+###### dumponexit={true|false}
+指定在JVM关闭时是否转储正在运行的记录。如果启用且未输入 filename ，则记录将写入进程启动目录中的文件。文件名是系统生成的名称，包含进程ID、记录ID和当前时间戳，类似于 hotspot-pid-47496-id-1-2018_01_25_19_10_41.jfr 。默认情况下，此参数处于禁用状态。
+
+###### duration=time
+指定录制的持续时间。追加 s 以指定时间（以秒为单位），追加 m 以指定分钟，追加 h 以指定小时，追加 d 以指定天。例如，指定 5h 表示5小时。默认情况下，持续时间没有限制，此参数设置为0。
+
+###### filename=path
+指定录制停止时要写入录制的文件的路径和名称，例如：
+- recording.jfr
+- /home/user/recordings/recording.jfr
+- c:\recordings\recording.jfr
+
+###### name=identifier
+接受录音的名称和标识符。
+
+###### maxage=time
+指定要为录制保留的磁盘数据的最长期限。仅当 disk 参数设置为 true 时，此参数才有效。追加 s 以指定时间（以秒为单位），追加 m 以指定分钟，追加 h 以指定小时，追加 d 以指定天。例如，指定 30s 表示30秒。默认情况下，最大年龄没有限制，该参数设置为 0s 。
+
+###### maxsize=size
+指定要为录制保留的磁盘数据的最大大小（以字节为单位）。仅当 disk 参数设置为 true 时，此参数才有效。该值不得小于使用 -XX:FlightRecorderOptions 设置的 maxchunksize 参数的值。追加 m 或 M 以指定以MB为单位的大小，追加 g 或 G 以指定以GB为单位的大小。默认情况下，磁盘数据的最大大小没有限制，该参数设置为 0 。
+
+###### path-to-gc-roots={true|false}
+指定是否在记录结束时收集垃圾回收（GC）根的路径。默认情况下，此参数处于禁用状态。
+
+GC根目录的路径对于查找内存泄漏非常有用，但是收集它非常耗时。仅当您开始录制怀疑存在内存泄漏的应用程序时才启用此选项。如果将 settings 参数设置为 profile ，则从其分配潜在泄漏对象的堆栈跟踪将包括在收集的信息中。
+
+###### settings=path
+指定事件设置文件（JFC类型）的路径和名称。默认情况下，使用 default.jfc 文件，该文件位于 JRE_HOME/lib/jfr 中。此默认设置文件以较低的开销收集预定义的一组信息，因此对性能的影响最小，并且可用于连续运行的录制。
+
+还提供了第二个设置文件 profile.jfc ，它提供的数据比默认配置更多，但可能会产生更多开销并影响性能。当需要更多信息时，可在短时间内使用此配置。
+
+您可以指定多个参数的值，方法是用逗号分隔它们。
+
+#### -XX:ThreadStackSize=size
+设置Java线程堆栈大小（以字节为单位）。使用缩放后缀（如 k ）会导致缩放字节值，因此 -XX:ThreadStackSize=1k 将Java线程堆栈大小设置为1024*1024字节或1 MB。默认值取决于平台：
+- Linux: 1024 KB
+- macOS: 1024 KB
+- Oracle Solaris: 1024 KB
+- Windows：默认值取决于虚拟内存。
+
+以下示例显示如何以不同的单位将线程堆栈大小设置为1MB：
+```shell
+-XX:ThreadStackSize=1k
+-XX:ThreadStackSize=1024
+```
+此选项类似于`-Xss`。
+
+#### -XX:+PrintFlagsInitial
 
 ```shell
 # 打印所有的默认参数设置
 java -XX:+PrintFlagsInitial -version
 ```
 
-##### -XX:+PrintFlagsFinal
+#### -XX:+PrintFlagsFinal
 
 ```shell
 # 打印最终值，如果某个默认值被新值覆盖，显示新值
 java -XX:+PrintFlagsFinal -version
 ```
 
-##### -XX:+PrintCommandLineFlags
+#### -XX:+PrintCommandLineFlags
 
 启用打印出现在命令行上的JVM标志（修改过的）。了解JVM设置的人体工程学值很有用，例如堆空间大小和所选的垃圾收集器。默认情况下，此选项处于禁用状态并且不会打印标志。
 
@@ -298,7 +393,7 @@ java -XX:+PrintFlagsFinal -version
 java -XX:+PrintCommandLineFlags -version
 ```
 
-##### -XX:-UseContainerSupport
+#### -XX:-UseContainerSupport
 
 虚拟机现在提供了自动容器检测支持，允许虚拟机确定在docker容器中运行的Java进程可用的内存量和处理器数量。它使用这些信息来分配系统资源。此支持仅在Linux
 x64平台上可用。如果支持，则此标志的默认值为true，并且默认情况下启用容器支持。可以使用-XX:-UseContainerSupport禁用它。
@@ -308,7 +403,7 @@ x64平台上可用。如果支持，则此标志的默认值为true，并且默�
 使用`-Xlog:os+container=trace`
 最大限度地记录容器信息。有关使用统一日志记录的说明，请参阅[使用JVM统一日志记录框架启用日志记录](https://docs.oracle.com/en/java/javase/11/tools/java.html#GUID-BE93ABDC-999C-4CB5-A88B-1994AAAC74D5)。
 
-##### -XX:VMOptionsFile=filename
+#### -XX:VMOptionsFile=filename
 
 允许用户在文件中指定 VM 选项，例如：`java -XX:VMOptionsFile=/var/my_vm_options HelloWorld`。
 
@@ -322,13 +417,13 @@ x64平台上可用。如果支持，则此标志的默认值为true，并且默�
 
 这些Java选项提供了收集系统信息和执行大量调试的能力。
 
-##### -XX:+HeapDumpOnOutOfMemoryError
+#### -XX:+HeapDumpOnOutOfMemoryError
 
 允许在抛出`java.lang.OutOfMemoryError`
 异常时使用堆分析器（HPROF）将Java堆转储到当前目录中的文件。您可以使用`-XX:HeapDumpPath`
 选项显式设置堆转储文件路径和名称。默认情况下，此选项被禁用，并且在抛出`OutOfMemoryError`异常时不会转储堆。
 
-##### -XX:HeapDumpPath=path
+#### -XX:HeapDumpPath=path
 
 当设置了`-XX:+HeapDumpOnOutOfMemoryError`
 选项时，设置写入堆分析器（HPROF）提供的堆转储的路径和文件名。默认情况下，该文件是在当前工作目录中创建的，名称为`java_pid＜pid＞.hprof`
@@ -347,7 +442,7 @@ x64平台上可用。如果支持，则此标志的默认值为true，并且默�
   -XX:HeapDumpPath=C:/log/java/java_heapdump.log
   ```
 
-##### -XX:+PrintFlagsRanges
+#### -XX:+PrintFlagsRanges
 
 打印指定的范围，并允许自动测试值。详见：https://docs.oracle.com/en/java/javase/11/tools/java.html#GUID-9569449C-525F-4474-972C-4C1F63D5C357
 
@@ -654,7 +749,7 @@ filecount=file-count filesize=file size with optional K, M or G suffix
 日志记录也可以通过诊断命令（使用`jcmd`实用工具）在运行时进行控制。所有可以在命令行上指定的内容也可以通过`VM.log`
 命令动态指定。由于诊断命令自动公开为MBeans，您可以使用JMX在运行时更改日志记录配置。
 
-#### -Xlog标签和级别
+##### -Xlog标签和级别
 
 每条日志消息都有与之关联的级别和标签集。消息的级别对应其详细信息，而标签集对应消息的内容或涉及的JVM组件（例如GC、编译器或线程）。将GC标志映射到Xlog配置的方法在“[将GC日志标志转换为Xlog](#将GC日志标志转换为Xlog)
 ”中描述。将传统运行时日志标志映射到相应Xlog配置的方法在“[运行时日志标志转换为Xlog](#将运行时日志标志转换为Xlog)”中描述。
