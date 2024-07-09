@@ -50,7 +50,7 @@
    ```
 2. 端口转发
 
-   ![kube-port-forward-lens.png](assets/kube-port-forward-lens.png)
+   ![kube-port-forward-lens.png](assets/visual-vm/kube-port-forward-lens.png)
 3. Visual VM自动显示了该Java进程
 
-   ![kube-visual-vm.png](assets/kube-visual-vm.png)
+   ![kube-visual-vm.png](assets/visual-vm/kube-visual-vm.png)
