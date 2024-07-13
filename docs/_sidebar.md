@@ -37,6 +37,8 @@
       - [JVM Sandbox](java/tools/third/jvm-sandbox.md)
       - [Netbeans profiler](java/tools/third/netbeans-profiler.md)
       - [自定义](java/tools/third/custom.md)
+  - **管理与故障排除**
+    - [JMX](java/management-troubleshoot/jmx.md)
 - 🔥 **Kubernetes**
   - [关于pod探针的总结](kubernetes/probe.md)
 - ❓疑难杂症
