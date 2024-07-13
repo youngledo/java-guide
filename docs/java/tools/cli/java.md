@@ -925,7 +925,7 @@ MB进行轮换，除非另有配置。指定 `filecount=0` 表示不应轮换日
 | TraceBiasedLocking        | -Xlog:biasedlocking=level           | 使用`level=info`获取常规信息，使用`level=trace`获取额外信息。                                                                         |
 | TraceRedefineClasses      | -Xlog:redefine+class*=level         | 使用`level=info`、`level=debug`和`level=trace`提供越来越多的信息。                                                                |
 
-### -Xlog使用示例
+#### -Xlog使用示例
 
 以下是-Xlog示例。
 
@@ -959,7 +959,7 @@ MB进行轮换，除非另有配置。指定 `filecount=0` 表示不应轮换日
 ##### -Xlog:disable -Xlog:safepoint=trace:safepointtrace.txt
 关闭所有日志记录，包括警告和错误，然后使用文件`safepoint trace.txt`的跟踪级别启用标签有`safepoint`的消息。默认配置不适用，因为命令行以`-Xlog:disable`开头。
 
-### 复杂-Xlog用法示例
+#### 复杂-Xlog用法示例
 下面描述了一些使用-Xlog选项的复杂示例。
 
 ##### -Xlog:gc+class*=debug
