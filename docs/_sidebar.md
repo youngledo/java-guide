@@ -25,6 +25,7 @@
       - [jcmd](java/tools/cli/jcmd.md)
       - [jhsdb](java/tools/cli/jhsdb.md)
       - [jstatd](java/tools/cli/jstatd.md)
+      - [jlink](java/tools/cli/jlink.md)
       - jdb
     - 图形化
       - [jconsole](java/tools/gui/jconsole.md)
