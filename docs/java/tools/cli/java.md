@@ -80,7 +80,7 @@ HotSpot虚拟机操作的特定区域，这些区域通常具有特定的系统�
 这些是所有JVM实现都支持的最常用选项。
 > 要为长选项指定参数，可以使用 --name=value 或 --name value。
 
-##### -agentlib:libname[=options]
+#### -agentlib:libname[=options]
 
 加载指定的本机代理库。在库名称之后，可以使用逗号分隔选项列表。
 
@@ -94,20 +94,74 @@ HotSpot虚拟机操作的特定区域，这些区域通常具有特定的系统�
 -agentlib:jdwp=transport=dt_socket,server=y,address=8000
 ````
 
-##### -Dproperty=value
+#### --class-path classpath 、 -classpath classpath 或 -cp classpath
+用于搜索类文件的目录、ZIP存档和ZIP存档的以分号（;）分隔的列表。
+
+命令`classpath`覆盖`CLASSPATH`环境变量的任何设置。如果没有使用`classpath`选项并且没有设置 classpath ，那么用户类路径由当前目录（.）组成。
+
+为了特别方便起见，包含星号（*）基名称的类路径元素被认为等同于指定目录中所有文件的列表，扩展名为`.jar`或`.JAR`。Java程序无法区分这两种调用。例如，如果目录`mydir`包含`a.jar`和`b.JAR`，则类路径元素`mydir/*`将扩展为`A.jar:b.JAR`，但未指定目录文件的顺序。指定目录中的所有`.jar`文件，即使是隐藏的文件，也会包含在列表中。由星号（*）组成的类路径条目展开为当前目录中所有`jar`文件的列表。`CLASSPATH`环境变量，在定义的地方，类似地展开。任何类路径扩展都会在Java VM启动之前发生。Java程序永远不会看到未扩展的通配符，除非通过查询环境，例如通过调用`System.getenv("CLASSPATH")`。
+
+#### -Dproperty=value
 
 定义系统属性值。`property`变量是一个不带空位的字符串，代表属性的名称。`value`
 变量是表示属性值的字符串。如果值是带空位的字符串，则用引号将其括起来（例如`-Dfoo="foo bar"`）。
 
-##### -javaagent:jarpath[=options]
+#### -javaagent:jarpath[=options]
 
 加载指定的Java编程语言代理。
 
-##### -X
+#### -verbose:class
+显示有关每个加载的类的信息。
+```shell
+~ % java -jar -verbose:class -jar app.jar
+[0.014s][info][class,load] java.lang.Object source: shared objects file
+[0.015s][info][class,load] java.io.Serializable source: shared objects file
+[0.015s][info][class,load] java.lang.Comparable source: shared objects file
+[0.015s][info][class,load] java.lang.CharSequence source: shared objects file
+[0.015s][info][class,load] java.lang.constant.Constable source: shared objects file
+[0.015s][info][class,load] java.lang.constant.ConstantDesc source: shared objects file
+[0.015s][info][class,load] java.lang.String source: shared objects file
+
+```
+
+#### -verbose:gc
+显示有关每个垃圾回收（GC）事件的信息。
+```shell
+~ % java -verbose:gc -jar app.jar
+[0.003s][info][gc] Using G1
+[0.294s][info][gc] GC(0) Pause Young (Normal) (G1 Evacuation Pause) 22M->3M(258M) 1.412ms
+```
+
+#### -verbose:jni
+显示有关使用本机方法和其他Java本机接口（JNI）活动的信息。
+```shell
+~ % java -jar -verbose:jni -jar app.jar
+[0.007s][debug][jni,resolve] [Registering JNI native method java.lang.Object.hashCode]
+[0.007s][debug][jni,resolve] [Registering JNI native method java.lang.Object.wait0]
+[0.007s][debug][jni,resolve] [Registering JNI native method java.lang.Object.notify]
+[0.007s][debug][jni,resolve] [Registering JNI native method java.lang.Object.notifyAll]
+[0.007s][debug][jni,resolve] [Registering JNI native method java.lang.Object.clone]
+```
+
+#### -verbose:module
+显示有关正在使用的模块的信息。
+```shell
+~ % java -jar -verbose:jni -jar app.jar
+[0.021s][info][module,load] java.base location: jrt:/java.base
+[0.032s][info][module,load] jdk.internal.jvmstat location: jrt:/jdk.internal.jvmstat
+[0.032s][info][module,load] jdk.management location: jrt:/jdk.management
+[0.032s][info][module,load] jdk.jsobject location: jrt:/jdk.jsobject
+[0.032s][info][module,load] java.transaction.xa location: jrt:/java.transaction.xa
+```
+
+#### -X
 
 将有关额外选项的帮助打印到错误流中。
 
-##### @argfile
+#### --help-extra
+将有关额外选项的帮助打印到输出流。
+
+#### @argfile
 
 指定Java命令使用的一个或多个以`@`为开头的参数文件。由于类路径中需要`.jar`文件，Java命令行非常长的情况并不罕见。`@argfile`
 选项通过使启动器能够在shell扩展后但在参数处理之前扩展参数文件的内容来克服命令行长度限制。参数文件中的内容将被扩展，因为否则，它们将在命令行上指定，直到遇到`-Xdisable-@files`
