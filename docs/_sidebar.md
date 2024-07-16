@@ -31,7 +31,7 @@
       - [jconsole](java/tools/gui/jconsole.md)
       - [Visual VM](java/tools/gui/visual-vm.md)
       - [JDK Mission Control](java/tools/gui/jmc.md)
-      - [Java Flight Recorder](java/tools/gui/jfr.md)
+      - [Java Flight Recorder](java/tools/cli/jfr.md)
     - 三方工具
       - [Arthas](java/tools/third/arthas.md)
       - [JVM Sandbox](java/tools/third/jvm-sandbox.md)

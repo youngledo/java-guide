@@ -2,7 +2,9 @@
 >
 > 注意⚠️：Java Flight Recorder需要商业许可证才能在生产中使用。要了解有关商业功能以及如何启用这些功能的更多信息，请访问[http://www.oracle.com/technetwork/java/javaseproducts/](http://www.oracle.com/technetwork/java/javaseproducts/)。
 >
-> 参考文献：https://docs.oracle.com/javacomponents/jmc-5-5/jfr-runtime-guide/about.htm#JFRRT107
+> 参考文献：
+> 1. https://docs.oracle.com/javacomponents/jmc-5-5/jfr-runtime-guide/about.htm#JFRRT107
+> 2. https://docs.oracle.com/javacomponents/jmc-5-5/jfr-command-reference/diagnostic-command-reference.htm#JFRCR-GUID-BA5A1AA8-50C8-497E-BF4F-525872D643EC
 
 # 一、关于Java Flight Recorder
 

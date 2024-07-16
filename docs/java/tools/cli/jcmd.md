@@ -68,7 +68,7 @@ Compiler.directives_add
      > 
      > 影响: 中等，取决于Java堆大小和内容。
   
-- [JFR（JDK Flight Recorder）](java/tools/gui/jfr.md)
+- [JFR（JDK Flight Recorder）](java/tools/cli/jfr.md)
   1. JFR.start
       > 开始记录，例如，要对正在运行的标识符为 7060 的 Java 进程启动 2 分钟的录制并将其保存到当前目录中的 myrecording.jfr，请使用以下命令：
       > ```bash
