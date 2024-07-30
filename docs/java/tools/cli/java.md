@@ -188,7 +188,7 @@ java @argfile
 
 #### -Xmn size
 
-设置年轻代堆的初始大小和最大大小（以字节为单位）。用字母k或K表示千字节，用m或M表示兆字节，用g或G表示千兆字节。堆的新生代区域用于存放新对象。在该区域执行GC的频率高于其他区域。如果年轻代的大小太小，就会执行很多次要的垃圾回收。如果大小过大，则只执行完全垃圾回收（full
+设置年轻代堆的初始大小和最大大小（以字节为单位）。用字母k或K表示千字节，用m或M表示兆字节，用g或G表示千兆字节。堆的新生代区域用于存放新对象。在该区域执行GC的频率高于其他区域。如果年轻代的大小太小，就会执行很多次的垃圾回收。如果大小过大，则只执行完全垃圾回收（full
 GC），这可能需要很长时间才能完成。**Oracle建议，年轻代的大小应大于堆总大小的25%，小于50%**
 。下面的示例展示了如何使用各种单位将年轻代的初始大小和最大大小设置为256MB：
 
@@ -1073,12 +1073,8 @@ OpenJDK Runtime Environment (build 1.8.0_292-b10)
 
 ### 附录
 
-1.
-    *
-
-*[Java Heap Sizing in a Container: Quickly and Easily](https://blogs.oracle.com/java/post/java-heap-sizing-in-a-container-quickly-and-easily)
-**
-
+1. [Java Heap Sizing in a Container: Quickly and Easily](https://blogs.oracle.com/java/post/java-heap-sizing-in-a-container-quickly-and-easily)
 2. [How To Configure Java Heap Size Inside a Docker Container](https://www.baeldung.com/ops/docker-jvm-heap-size)
 3. [如何在Docker容器内配置Java堆大小](https://cloud.tencent.com/developer/article/2242238)
 4. [Xmx和Xms的大小是小于Docker容器以及Pod的大小的，为啥还是会出现OOMKilled？](https://juejin.cn/post/7183549109025013815)
+5. **[Java应用程序中的堆内存性能测试](https://dzone.com/articles/heap-memory-in-java-performance-testing)**
