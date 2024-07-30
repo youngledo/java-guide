@@ -564,18 +564,17 @@ MB（减去开销）。在 Linux 平台上，上限约为 2,000 MB（减去开�
 
 #### -XX:NewRatio=ratio
 
-设置新生代和老年代大小之间的比率。默认情况下，此选项设置为 2。以下示例显示如何将 young-to-old 比率设置为 1：
-
+设置新生代和老年代大小之间的比率。默认情况下，此选项设置为2。以下示例显示如何将`young-to-old`比率设置为1：
 ```shell
--XX:NewRatio=1
+-XX:NewRatio=1，此参数表示新生代与老年代的占比（1:1），即新生代和老年代的初始和最大内存各占堆内存的50%。
 ```
 
 #### -XX:NewSize=size
 
 设置年轻代（托儿所）的堆的初始大小（以字节为单位）。附加字母k或K表示千字节，m或M表示兆字节，附加字母g或G表示千兆字节。
 
-堆的年轻代区域用于新对象。 GC 在该区域中执行的频率高于其他区域。如果年轻代的大小太小，则会执行大量的Minor GC。如果大小太高，则仅执行完整
-GC，这可能需要很长时间才能完成。 Oracle 建议您将年轻代的大小保持在总堆大小的 25% 以上且小于 50% 之间。
+堆的年轻代区域用于新对象。 GC在该区域中执行的频率高于其他区域。如果年轻代的大小太小，则会执行大量的Minor GC。如果大小太高，则仅执行完整
+GC，这可能需要很长时间才能完成。Oracle建议您将年轻代的大小保持在总堆大小的25%以上且小于50%之间（即-XX:NewRatio的取值范围在1~3之间）。
 
 以下示例展示了如何使用各种单位将年轻代的初始大小设置为 256 MB：
 
@@ -1076,5 +1075,5 @@ OpenJDK Runtime Environment (build 1.8.0_292-b10)
 1. [Java Heap Sizing in a Container: Quickly and Easily](https://blogs.oracle.com/java/post/java-heap-sizing-in-a-container-quickly-and-easily)
 2. [How To Configure Java Heap Size Inside a Docker Container](https://www.baeldung.com/ops/docker-jvm-heap-size)
 3. [如何在Docker容器内配置Java堆大小](https://cloud.tencent.com/developer/article/2242238)
-4. [Xmx和Xms的大小是小于Docker容器以及Pod的大小的，为啥还是会出现OOMKilled？](https://juejin.cn/post/7183549109025013815)
-5. **[Java应用程序中的堆内存性能测试](https://dzone.com/articles/heap-memory-in-java-performance-testing)**
+4. **[Java应用程序中的堆内存性能测试](https://dzone.com/articles/heap-memory-in-java-performance-testing)**
+5. [Core Java Performance](https://github.com/eugenp/tutorials/tree/master/core-java-modules/core-java-perf)
