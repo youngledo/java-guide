@@ -157,6 +157,9 @@ $ jstat -gccause -h5 24668 300 100
   0.00   0.00   0.00   3.20  95.91  83.08     14    0.025     4    0.015    10    0.005    0.045 G1 Evacuation Pause  No GC
   0.00   0.00   0.00   3.20  95.91  83.08     14    0.025     4    0.015    10    0.005    0.045 G1 Evacuation Pause  No GC 
 ```
+以下是的示例展示了`S0`、`S1`区以及`Eden`区域内存百分比的变化，也表现出新生代内存的内存原理。
+![jstat-gc-cause.png](assets/jstat/jstat-gc-cause.png)
+![jstat-gc-cause-2.png](assets/jstat/jstat-gc-cause-2.png)
 
 ##### -gcnew：新生代统计数据。
 - S0C: 当前survivor（幸存者）0的空间大小（KB）。
