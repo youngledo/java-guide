@@ -973,8 +973,11 @@ MB进行轮换，除非另有配置。指定 `filecount=0` 表示不应轮换日
 ##### -Xlog:gc+class+heap*=debug,meta*=warning,threads*=off
 使用跟踪级别将至少标记有`gc`、`class`和`heap`标签的消息记录到`stdout`，但仅记录标记有`meta`和`level`的消息。警告级别的所有其他消息的默认配置都有效，但包括线程的消息除外。
 
-最后贴一张，网友分享的详解图：
+最后贴几张详解图：
+
 ![java-log-detail.png](assets/java/java-log-detail.png)
+
+![java-log-detail-2.png](assets/java/java-log-detail-2.png)
 整个学习下来，发现参数特别多，不同版本可能还不一样，好在现在有`ChatGPT`、`通义千问`可以给你解答。
 
 ## 附加项
