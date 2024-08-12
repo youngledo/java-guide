@@ -984,7 +984,7 @@ MB进行轮换，除非另有配置。指定 `filecount=0` 表示不应轮换日
 
 ### 一、关于JVM参数的设置（容器化）
 
-参考疑难杂症下的说明：[如何正确的设置JVM参数](../../../troubleshoot/jvm-options-setting.md)。
+参考疑难杂症下的说明：[如何正确的设置JVM参数](../../../troubleshoot%2Fjvm-options-setting.md)。
 
 ### 二、关于-XX:InitialRAMPercentage、-XX:MinRAMPercentage和-XX:MaxRAMPercentage的理解
 
