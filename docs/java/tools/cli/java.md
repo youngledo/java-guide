@@ -288,45 +288,29 @@ java -XshowSettings:vm -version
 
 覆盖虚拟机将用于计算用于各种操作（如垃圾回收和ForkJoinPool）的线程池大小的CPU数。
 
-虚拟机通常会从操作系统中确定可用处理器的数量。在 docker 容器中运行多个 Java
-进程时，该标签可用于划分CPU资源。即使未启用UseContainerSupport，也会启用该标签。有关启用和禁用容器支持的说明，请参阅`-XX:-UseContainerSupport`。
+虚拟机通常会从操作系统中确定可用处理器的数量。在docker容器中运行多个Java进程时，该标签可用于划分CPU资源。即使未启用UseContainerSupport，也会启用该标签。有关启用和禁用容器支持的说明，请参阅`-XX:-UseContainerSupport`。
 
-#### -XX:MaxDirectMemorySize=size（俗称堆外内存）
+#### -XX:ErrorFile=filename
+指定发生不可恢复的错误时写入错误数据的路径和文件名。默认情况下，此文件在当前工作目录中创建，并命名为`hs_err_pidpid.log`，其中`pid`是导致错误的进程的标识符。
 
-设置`java.nio`包直接缓冲区分配的最大总大小（以字节为单位）。用字母k或K表示千字节，用m或M表示兆字节，用g或G表示千兆字节。默认情况下，大小设置为0，这意味着JVM会自动选择NIO直接缓冲区分配的大小。
-
-以下示例说明了如何以不同单位将 NIO 大小设置为 1024 KB：
-
+以下示例显示了如何设置默认日志文件（请注意，进程的标识符指定为%p）：
 ```
--XX:MaxDirectMemorySize=1m
--XX:MaxDirectMemorySize=1024k
--XX:MaxDirectMemorySize=1048576
+-XX:ErrorFile=./hs_err_pid%p.log
 ```
-
-**参考文档**
-
-- [JVM源码分析之堆外内存完全解读](http://lovestblog.cn/blog/2015/05/12/direct-buffer/)
-
-#### -XX:OnError=string
-
-设置在发生不可恢复的错误时运行的自定义命令或一系列以分号分隔的命令。如果字符串包含空格，则必须将其括在引号中。
-
-- Oracle Solaris、Linux、macOS：以下示例展示了如何使用`-XX:OnError`选项运行gcore命令来创建核心映像，并在发生不可恢复的错误时启动调试器附加到进程（%p表示当前进程）：
+- Oracle Solaris, Linux, and macOS：以下示例显示了如何将错误日志设置为`/var/log/java/java_error.log`：
   ```
-  -XX:OnError="gcore %p;dbx - %p"
+  -XX:ErrorFile=/var/log/java/java_error.log
   ```
-- Windows：以下示例显示如何使用`-XX:OnError`
-  选项运行userdump.exe实用程序来获取故障转储，以防出现不可恢复的错误（%p表示当前进程）。此示例假设在`PATH`
-  环境变量中指定了userdump.exe实用程序的路径：
+- Windows：以下示例显示了如何将错误日志设置为`C:/log/java/java_error.log`：
+  ```
+  -XX:ErrorFile=C:/log/java/java_error.log
+  ```
+如果无法在指定目录中创建文件 (由于空间不足、权限问题或其他问题)，则会在操作系统的临时目录中创建文件：
+- Oracle Solaris, Linux, and macOS：临时目录是`/tmp`。
+- Windows：临时目录由TMP环境变量的值指定。如果未定义该环境变量，则使用TEMP环境变量的值。
 
-```
--XX:OnError="userdump.exe %p"
-```
-
-#### -XX:OnOutOfMemoryError=string
-
-设置一个自定义命令或一系列分号分隔的命令，以在首次引发`OutOfMemoryError`
-异常时运行。如果字符串包含空格，则必须用引号括起来。有关命令字符串的示例，请参阅`-XX:OnError`选项的说明。
+#### -XX:+ExtensiveErrorReports
+允许在`ErrorFile`中报告更广泛的错误信息。在需要最大信息的环境中可以打开此选项，即使结果日志可能非常大并且或包含可能被认为敏感的信息。信息可能因发布而异，并且跨不同的平台而异。默认情况下，此选项处于禁用状态。
 
 #### -XX:FlightRecorderOptions=parameter=value
 设置控制JFR行为的参数。
@@ -366,6 +350,57 @@ java -XshowSettings:vm -version
 指定每个线程的本地缓冲区大小（以字节为单位）。默认情况下，本地缓冲区大小设置为8 KB。覆盖此参数可能会降低性能，因此不建议使用。
 
 您可以指定多个参数的值，方法是用逗号分隔它们。
+
+#### -XX:MaxDirectMemorySize=size（俗称堆外内存）
+
+设置`java.nio`包直接缓冲区分配的最大总大小（以字节为单位）。用字母k或K表示千字节，用m或M表示兆字节，用g或G表示千兆字节。默认情况下，大小设置为0，这意味着JVM会自动选择NIO直接缓冲区分配的大小。
+
+以下示例说明了如何以不同单位将 NIO 大小设置为 1024 KB：
+
+```
+-XX:MaxDirectMemorySize=1m
+-XX:MaxDirectMemorySize=1024k
+-XX:MaxDirectMemorySize=1048576
+```
+
+**参考文档**
+
+- [JVM源码分析之堆外内存完全解读](http://lovestblog.cn/blog/2015/05/12/direct-buffer/)
+
+#### -XX:NativeMemoryTracking=mode
+指定跟踪JVM本地内存使用情况的模式。此选项的可能模式参数包括：
+- off
+  
+  指示不跟踪JVM本机内存使用情况。如果不指定`-XX:NativeMemoryTracking`选项，则这是默认行为。
+
+- summary
+
+  仅通过JVM子系统 (如Java堆、类、代码和线程) 跟踪内存使用情况。
+
+- detail
+
+  除了跟踪JVM子系统的内存使用情况外，还可以跟踪各个调用站点，各个虚拟内存区域及其已提交区域的内存使用情况。
+
+#### -XX:OnError=string
+
+设置在发生不可恢复的错误时运行的自定义命令或一系列以分号分隔的命令。如果字符串包含空格，则必须将其括在引号中。
+
+- Oracle Solaris、Linux、macOS：以下示例展示了如何使用`-XX:OnError`选项运行gcore命令来创建核心映像，并在发生不可恢复的错误时启动调试器附加到进程（%p表示当前进程）：
+  ```
+  -XX:OnError="gcore %p;dbx - %p"
+  ```
+- Windows：以下示例显示如何使用`-XX:OnError`
+  选项运行userdump.exe实用程序来获取故障转储，以防出现不可恢复的错误（%p表示当前进程）。此示例假设在`PATH`
+  环境变量中指定了userdump.exe实用程序的路径：
+
+```
+-XX:OnError="userdump.exe %p"
+```
+
+#### -XX:OnOutOfMemoryError=string
+
+设置一个自定义命令或一系列分号分隔的命令，以在首次引发`OutOfMemoryError`
+异常时运行。如果字符串包含空格，则必须用引号括起来。有关命令字符串的示例，请参阅`-XX:OnError`选项的说明。
 
 #### -XX:StartFlightRecording=parameter=value
 为Java应用程序启动JFR录制。此选项等同于在运行时启动记录的 JFR.start diagnostic命令。开始JFR录制时，您可以设置以下 parameter=value 项：
@@ -984,7 +1019,7 @@ MB进行轮换，除非另有配置。指定 `filecount=0` 表示不应轮换日
 
 ### 一、关于JVM参数的设置（容器化）
 
-参考疑难杂症下的说明：[如何正确的设置JVM参数](../../../troubleshoot%2Fjvm-options-setting.md)。
+参考疑难杂症下的说明：[如何正确的设置JVM参数](../../../troubleshoot/jvm-options-setting.md)。
 
 ### 二、关于-XX:InitialRAMPercentage、-XX:MinRAMPercentage和-XX:MaxRAMPercentage的理解
 
